@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>徳島県基礎学力テスト（2年社会）5カ年戦略ラボ</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Chosen Palette: "Atlas & Parchment" -->
+    <!-- Geography: Teal/Blue (Ocean/Land) | History: Sepia/Amber (Documents) -->
+
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f5f5f4;
+            /* stone-100 */
+            color: #292524;
+            /* stone-800 */
+        }
+
+        h1,
+        h2,
+        h3,
+        .rounded-font {
+            font-family: 'Zen Maru Gothic', sans-serif;
+        }
+
+        /* Chart Container Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+
+        .geo-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 5px solid #0ea5e9;
+        }
+
+        .hist-card {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-left: 5px solid #d97706;
+        }
+
+        .flip-card {
+            background-color: white;
+            perspective: 1000px;
+            cursor: pointer;
+            height: 180px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 1rem;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            flex-direction: column;
+        }
+
+        .flip-card-front {
+            background-color: #ffffff;
+            border: 2px solid #e7e5e4;
+        }
+
+        .flip-card-back {
+            background-color: #44403c;
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background-color: #d6d3d1;
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-stone-800 text-white sticky top-0 z-50 shadow-lg border-b-4 border-amber-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center text-stone-900 font-bold text-xl shadow">
+                    <i class="fa-solid fa-compass"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold tracking-wider">徳島社会分析LABO</h1>
+                    <p class="text-[10px] text-stone-400 tracking-widest uppercase">5-Year Strategic Report (R2-R6)</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex gap-6 text-sm font-bold">
+                <a href="#overview" class="hover:text-amber-400 transition">全体構造</a>
+                <a href="#rotation" class="hover:text-amber-400 transition">地理ローテ</a>
+                <a href="#history" class="hover:text-amber-400 transition">歴史外交</a>
+                <a href="#templates" class="hover:text-amber-400 transition">記述型</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <!-- Hero Section -->
+        <section class="bg-stone-900 text-stone-100 py-16 px-4 relative overflow-hidden">
+            <div class="max-w-4xl mx-auto text-center relative z-10">
+                <span
+                    class="inline-block py-1 px-3 rounded-full bg-stone-700 text-stone-300 text-xs font-bold mb-4 border border-stone-600">
+                    出願校決定のための最終分析
+                </span>
+                <h2 class="text-3xl md:text-5xl font-black rounded-font leading-tight mb-6">
+                    「縦」の歴史と「横」の地理。<br>
+                    <span class="text-amber-400">交差点</span>に答えがある。
+                </h2>
+                <p class="text-stone-400 text-lg leading-relaxed max-w-2xl mx-auto">
+                    直近5カ年（R2-R6）の全データを統合。<br>
+                    地理の「地域ローテーション」と歴史の「外交リンク」を完全に可視化しました。
+                </p>
+            </div>
+            <!-- Decorative Map BG -->
+            <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+                <i class="fa-solid fa-earth-asia text-[400px] absolute -right-20 -bottom-20 text-stone-500"></i>
+            </div>
+        </section>
+
+        <!-- Overview Dashboard -->
+        <section id="overview" class="max-w-6xl mx-auto px-4 py-12">
+            <div class="bg-white rounded-3xl shadow-sm border border-stone-200 p-8">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-12">
+                    <div class="w-full md:w-1/2">
+                        <h3 class="text-2xl font-bold text-stone-800 mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-scale-balanced text-stone-400"></i> 配点の黄金比
+                        </h3>
+                        <p class="text-stone-600 mb-6 leading-relaxed">
+                            徳島県の社会科は、5年間一貫して<span
+                                class="font-bold text-stone-900">「地理50点・歴史50点」</span>の完全バランス型です。どちらか一方を捨てると、高得点は不可能です。
+                        </p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="geo-card p-4 rounded-xl">
+                                <span class="text-xs font-bold text-sky-600 uppercase">Geography</span>
+                                <div class="text-2xl font-black text-sky-900">50点</div>
+                                <p class="text-xs text-sky-700 mt-1">資料・雨温図・時差</p>
+                            </div>
+                            <div class="hist-card p-4 rounded-xl">
+                                <span class="text-xs font-bold text-amber-600 uppercase">History</span>
+                                <div class="text-2xl font-black text-amber-900">50点</div>
+                                <p class="text-xs text-amber-700 mt-1">外交・文化・政治</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 flex justify-center">
+                        <div class="chart-container">
+                            <canvas id="scoreChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Geography: Regional Rotation -->
+        <section id="rotation" class="max-w-6xl mx-auto px-4 py-12">
+            <div class="text-center mb-12">
+                <span class="text-sky-600 font-bold tracking-widest uppercase text-sm">Target Prediction</span>
+                <h3 class="text-3xl font-black text-stone-800 mt-2 rounded-font">日本地理：地域ローテーションの法則</h3>
+                <p class="text-stone-500 mt-2">過去5年の出題地域から、次回のターゲットを予測します。</p>
+            </div>
+
+            <div class="relative max-w-4xl mx-auto">
+                <!-- Timeline items -->
+                <div class="space-y-8 relative">
+                    <div class="absolute left-1/2 top-0 bottom-0 w-1 bg-stone-200 -translate-x-1/2 hidden md:block">
+                    </div>
+
+                    <!-- R6 -->
+                    <div class="flex flex-col md:flex-row items-center justify-between relative z-10">
+                        <div
+                            class="w-full md:w-5/12 text-center md:text-right bg-white p-4 rounded-xl shadow-sm border border-stone-100">
+                            <h4 class="text-lg font-bold text-stone-800">令和6年度</h4>
+                            <p class="text-sky-600 font-black text-xl mt-1">中国・四国地方</p>
+                            <p class="text-xs text-stone-500 mt-1">徳島県関連・瀬戸内の気候</p>
+                        </div>
+                        <div
+                            class="w-8 h-8 bg-sky-500 rounded-full border-4 border-white shadow my-2 md:my-0 flex-shrink-0">
+                        </div>
+                        <div class="w-full md:w-5/12"></div>
+                    </div>
+
+                    <!-- R5 -->
+                    <div class="flex flex-col md:flex-row items-center justify-between relative z-10">
+                        <div class="w-full md:w-5/12"></div>
+                        <div
+                            class="w-8 h-8 bg-stone-300 rounded-full border-4 border-white shadow my-2 md:my-0 flex-shrink-0">
+                        </div>
+                        <div
+                            class="w-full md:w-5/12 text-center md:text-left bg-white p-4 rounded-xl shadow-sm border border-stone-100">
+                            <h4 class="text-lg font-bold text-stone-800">令和5年度</h4>
+                            <p class="text-stone-600 font-black text-xl mt-1">北海道・東北地方</p>
+                            <p class="text-xs text-stone-500 mt-1">農業・冷害・伝統工芸</p>
+                        </div>
+                    </div>
+
+                    <!-- R4 -->
+                    <div class="flex flex-col md:flex-row items-center justify-between relative z-10">
+                        <div
+                            class="w-full md:w-5/12 text-center md:text-right bg-white p-4 rounded-xl shadow-sm border border-stone-100">
+                            <h4 class="text-lg font-bold text-stone-800">令和4年度</h4>
+                            <p class="text-stone-600 font-black text-xl mt-1">中部・九州地方</p>
+                            <p class="text-xs text-stone-500 mt-1">工業地帯・環境モデル都市</p>
+                        </div>
+                        <div
+                            class="w-8 h-8 bg-stone-300 rounded-full border-4 border-white shadow my-2 md:my-0 flex-shrink-0">
+                        </div>
+                        <div class="w-full md:w-5/12"></div>
+                    </div>
+
+                    <!-- R3 -->
+                    <div class="flex flex-col md:flex-row items-center justify-between relative z-10">
+                        <div class="w-full md:w-5/12"></div>
+                        <div
+                            class="w-8 h-8 bg-stone-300 rounded-full border-4 border-white shadow my-2 md:my-0 flex-shrink-0">
+                        </div>
+                        <div
+                            class="w-full md:w-5/12 text-center md:text-left bg-white p-4 rounded-xl shadow-sm border border-stone-100">
+                            <h4 class="text-lg font-bold text-stone-800">令和3年度</h4>
+                            <p class="text-stone-600 font-black text-xl mt-1">関東地方・オセアニア</p>
+                            <p class="text-xs text-stone-500 mt-1">都市再開発・貿易構造</p>
+                        </div>
+                    </div>
+
+                    <!-- R2 -->
+                    <div class="flex flex-col md:flex-row items-center justify-between relative z-10">
+                        <div
+                            class="w-full md:w-5/12 text-center md:text-right bg-white p-4 rounded-xl shadow-sm border border-stone-100">
+                            <h4 class="text-lg font-bold text-stone-800">令和2年度</h4>
+                            <p class="text-stone-600 font-black text-xl mt-1">関東地方</p>
+                            <p class="text-xs text-stone-500 mt-1">過密問題・都市機能</p>
+                        </div>
+                        <div
+                            class="w-8 h-8 bg-stone-300 rounded-full border-4 border-white shadow my-2 md:my-0 flex-shrink-0">
+                        </div>
+                        <div class="w-full md:w-5/12"></div>
+                    </div>
+                </div>
+
+                <!-- Prediction Box -->
+                <div class="mt-12 bg-amber-50 border-2 border-amber-200 p-6 rounded-2xl text-center">
+                    <h4 class="text-amber-800 font-bold mb-2"><i class="fa-solid fa-crosshairs"></i> 地域別出題の法則</h4>
+                    <p class="text-stone-700 font-medium">
+                        過去数年で単独出題がない地域、または<span
+                            class="text-xl font-black text-amber-600 mx-1">ローテーションの空白</span>となっている地域が狙われる傾向にある。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- History: Diplomacy Links -->
+        <section id="history" class="bg-stone-800 text-stone-200 py-16 px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <span class="text-amber-400 font-bold tracking-widest uppercase text-sm">Historical Context</span>
+                    <h3 class="text-3xl font-black text-white mt-2 rounded-font">歴史：日本と世界の「外交リンク」</h3>
+                    <p class="text-stone-400 mt-2">日本の出来事は、常に世界の動きと連動しています。</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-stone-700/50 p-6 rounded-2xl border border-stone-600">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="bg-stone-600 text-xs px-2 py-1 rounded text-stone-300">R3出題</span>
+                            <i class="fa-solid fa-landmark text-amber-400 text-xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">大日本帝国憲法</h4>
+                        <div class="flex items-center gap-2 text-sm text-stone-300 mb-2">
+                            <span>参考国</span>
+                            <i class="fa-solid fa-arrow-right text-stone-500"></i>
+                            <span class="font-bold text-amber-400">ドイツ（プロイセン）</span>
+                        </div>
+                        <p class="text-xs text-stone-400 leading-relaxed">君主権が強く、日本の天皇制に適していると伊藤博文が判断したため。</p>
+                    </div>
+
+                    <div class="bg-stone-700/50 p-6 rounded-2xl border border-stone-600">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="bg-stone-600 text-xs px-2 py-1 rounded text-stone-300">R6出題</span>
+                            <i class="fa-solid fa-ship text-amber-400 text-xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">遣唐使の廃止</h4>
+                        <div class="flex items-center gap-2 text-sm text-stone-300 mb-2">
+                            <span>背景</span>
+                            <i class="fa-solid fa-arrow-right text-stone-500"></i>
+                            <span class="font-bold text-amber-400">唐の国内の乱れ</span>
+                        </div>
+                        <p class="text-xs text-stone-400 leading-relaxed">菅原道真の建議。唐が衰退し、危険を冒して派遣する意義が薄れたため。</p>
+                    </div>
+
+                    <div class="bg-stone-700/50 p-6 rounded-2xl border border-stone-600">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="bg-stone-600 text-xs px-2 py-1 rounded text-stone-300">R4出題</span>
+                            <i class="fa-solid fa-cross text-amber-400 text-xl"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">キリシタン大名</h4>
+                        <div class="flex items-center gap-2 text-sm text-stone-300 mb-2">
+                            <span>目的</span>
+                            <i class="fa-solid fa-arrow-right text-stone-500"></i>
+                            <span class="font-bold text-amber-400">南蛮貿易の利益</span>
+                        </div>
+                        <p class="text-xs text-stone-400 leading-relaxed">信仰心だけでなく、火薬や鉄砲などの貿易利益を得る経済的理由があった。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Description Templates (Interactive) -->
+        <section id="templates" class="max-w-6xl mx-auto px-4 py-16">
+            <div class="text-center mb-12">
+                <span class="text-emerald-600 font-bold tracking-widest uppercase text-sm">Writing Drills</span>
+                <h3 class="text-3xl font-black text-stone-800 mt-2 rounded-font">記述の「型」・暗記カード</h3>
+                <p class="text-stone-500 mt-2">タップして、徳島県で頻出の「正解キーワード」を確認せよ。</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1: Africa -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span class="text-xs font-bold text-sky-500 uppercase mb-2">地理 R6</span>
+                            <h4 class="font-bold text-stone-800">アフリカの国境線が<br>直線的な理由は？</h4>
+                            <p class="text-xs text-stone-400 mt-4 text-center">タップで答えを表示</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="text-sm font-bold leading-relaxed">
+                                「かつて<span class="text-amber-400">植民地</span>として支配していた欧州諸国が、人為的に境界を引いたため。」
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Setouchi -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span class="text-xs font-bold text-sky-500 uppercase mb-2">地理 R6/R4</span>
+                            <h4 class="font-bold text-stone-800">瀬戸内の気候が<br>雨が少ない理由は？</h4>
+                            <p class="text-xs text-stone-400 mt-4 text-center">タップで答えを表示</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="text-sm font-bold leading-relaxed">
+                                「北の<span class="text-amber-400">中国山地</span>と南の<span
+                                    class="text-amber-400">四国山地</span>に季節風が遮られるため。」
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Mongols -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span class="text-xs font-bold text-amber-600 uppercase mb-2">歴史 R6</span>
+                            <h4 class="font-bold text-stone-800">元軍の戦い方の<br>特徴は？</h4>
+                            <p class="text-xs text-stone-400 mt-4 text-center">タップで答えを表示</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="text-sm font-bold leading-relaxed">
+                                「火薬兵器（<span class="text-sky-400">てつはう</span>）を使い、<span
+                                    class="text-sky-400">集団戦</span>で攻めてきた。」
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Industrial Areas -->
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <span class="text-xs font-bold text-sky-500 uppercase mb-2">地理 共通</span>
+                            <h4 class="font-bold text-stone-800">京葉工業地域の<br>グラフの特徴は？</h4>
+                            <p class="text-xs text-stone-400 mt-4 text-center">タップで答えを表示</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="text-sm font-bold leading-relaxed">
+                                「<span class="text-amber-400">化学工業</span>の割合が他の地域に比べて極めて高い。」
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-500 py-10 text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            <p class="text-sm font-bold text-stone-400">ECC藍住のK</p>
+            <p class="text-xs mt-2 opacity-60">&copy; 2026 ECCベストワン藍住・北島中央</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('scoreChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['地理分野 (資料読解・地域調査)', '歴史分野 (外交・政治・文化)'],
+                    datasets: [{
+                        data: [50, 50],
+                        backgroundColor: [
+                            '#0ea5e9', // Sky-500
+                            '#d97706', // Amber-600
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    family: "'Noto Sans JP', sans-serif",
+                                    size: 12,
+                                    weight: 'bold'
+                                },
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return context.label + ': ' + context.raw + '点';
+                                }
+                            }
+                        }
+                    },
+                    cutout: '65%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+        });
+    </script>
+
+    <!-- Placeholder Comments Required -->
+    <!-- Application Structure Plan:
+         1. Hero: Impactful summary of the 5-year trend (R2-R6).
+         2. Overview: Visualizing the perfect 50/50 balance.
+         3. Rotation: Visual timeline of regional focus to predict future topics.
+         4. History: Contextual cards linking Japan to the World.
+         5. Templates: Interactive flashcards for critical descriptive answers.
+    -->
+    <!-- Visualization & Content Choices:
+         - Doughnut Chart: Shows the unshakeable 50/50 score distribution.
+         - Timeline: Vertical timeline clearly shows the regional rotation cycle.
+         - Flashcards: Chosen for the "Description Templates" as rote memorization is key here.
+         - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. Charts via Chart.js Canvas.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</body>
+
+</html>

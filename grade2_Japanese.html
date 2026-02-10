@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>徳島県基礎学力テスト（2年国語）5カ年徹底分析ラボ</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Chosen Palette: "Academic Indigo & Logic Gold" -->
+    <!-- Application Structure Plan:
+         1. Hero Section: Impactful summary of the 5-year analysis (R2-R6).
+         2. Macro Analytics: Visualization of score distribution and skill requirements.
+         3. The "Three Truths": Interactive cards detailing the 3 core findings (Logic Tables, Grammar, Writing Conditions).
+         4. Logic Archive: A timeline showing the "Comparison" theme across 5 years (R2-R6).
+         5. Strategy Roadmap: Actionable advice for students (Time management, Extraction, Writing templates).
+    -->
+
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f8fafc;
+            /* slate-50 */
+            color: #1e293b;
+            /* slate-800 */
+        }
+
+        h1,
+        h2,
+        h3,
+        .serif-font {
+            font-family: 'Shippori Mincho', serif;
+        }
+
+        /* Chart Container Styling - Strictly adhering to requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            /* Base height */
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #e2e8f0;
+            transform: translateX(-50%);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #f59e0b;
+            /* amber-500 */
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 bg-indigo-600 rounded flex items-center justify-center text-white font-bold text-xl">
+                    <i class="fa-solid fa-pen-nib"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-wider">徳島国語分析LABO</h1>
+                    <p class="text-[10px] text-slate-400 tracking-widest uppercase">5-Year Complete Analysis (R2-R6)</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex gap-8 text-sm font-bold tracking-wide">
+                <a href="#overview" class="nav-link hover:text-indigo-300 transition">全体構造</a>
+                <a href="#truths" class="nav-link hover:text-indigo-300 transition">3つの真実</a>
+                <a href="#logic-archive" class="nav-link hover:text-indigo-300 transition">論理の系譜</a>
+                <a href="#strategy" class="nav-link hover:text-indigo-300 transition">合格ロードマップ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <!-- Hero Section -->
+        <section class="relative bg-gradient-to-b from-slate-900 to-slate-800 text-white py-20 px-4">
+            <div class="max-w-5xl mx-auto text-center space-y-6">
+                <div
+                    class="inline-block px-4 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-xs font-bold border border-indigo-500/30">
+                    出願校決定のための最終分析レポート
+                </div>
+                <h2 class="text-4xl md:text-6xl font-black serif-font leading-tight">
+                    国語は「センス」ではない。<br>
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500">「構造」の把握</span>である。
+                </h2>
+                <p class="text-slate-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+                    R2からR6までの5年間を完全解剖。徳島県の国語が求めるのは、<br class="hidden md:block">
+                    55分間で情報を整理し、論理的な枠組みに落とし込む「情報処理能力」です。
+                </p>
+                <div class="pt-8 flex justify-center gap-4">
+                    <a href="#truths"
+                        class="bg-indigo-600 hover:bg-indigo-500 text-white px-8 py-3 rounded-full font-bold transition shadow-lg shadow-indigo-900/50">
+                        分析結果を見る
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualization & Content Choices:
+             1. Score Distribution: Doughnut Chart. Shows that "Logic" (Q4) is the heavyweight (30pts).
+             2. Skill Radar: Radar Chart. Highlights "Information Organization" & "Condition Adherence" as top skills.
+        -->
+        <!-- Macro Analytics -->
+        <section id="overview" class="max-w-7xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Distribution Chart -->
+            <div class="glass-card p-8 rounded-3xl">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-pie text-indigo-600"></i> 配点構造の真実
+                    </h3>
+                    <span class="text-xs bg-slate-100 px-2 py-1 rounded text-slate-500 font-mono">5-Year Avg.</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="scoreChart"></canvas>
+                </div>
+                <p
+                    class="mt-6 text-sm text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-xl border-l-4 border-indigo-500">
+                    <span class="font-bold">重要：</span>大問4（論理的文章）だけで30点という最大の配点。ここの「表埋め・ノート整理」を制する者が試験を制します。
+                </p>
+            </div>
+
+            <!-- Skill Radar -->
+            <div class="glass-card p-8 rounded-3xl">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-crosshairs text-amber-500"></i> 要求スキル分析
+                    </h3>
+                    <span class="text-xs bg-slate-100 px-2 py-1 rounded text-slate-500 font-mono">Difficulty
+                        Profile</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="skillChart"></canvas>
+                </div>
+                <div class="mt-6 grid grid-cols-2 gap-4">
+                    <div class="bg-indigo-50 p-3 rounded-lg text-xs text-indigo-800 font-bold text-center">
+                        情報の整理・構造化
+                    </div>
+                    <div class="bg-amber-50 p-3 rounded-lg text-xs text-amber-800 font-bold text-center">
+                        条件（字数・語句）の遵守
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualization & Content Choices:
+             - Layout: 3-Column Grid of Cards.
+             - Content: The "3 Truths" from the report.
+             - Interaction: Hover effects to reveal details.
+        -->
+        <!-- The Three Truths Section -->
+        <section id="truths" class="bg-slate-100 py-20">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="text-center mb-16">
+                    <span class="text-indigo-600 font-bold tracking-widest uppercase text-sm">Analysis Results</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-slate-900 mt-2 serif-font">徳島国語・3つの真実</h2>
+                    <p class="text-slate-500 mt-4 max-w-2xl mx-auto">
+                        5年間の累積データから導き出された、偏差値60の壁を超えるための絶対法則。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Truth 1 -->
+                    <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
+                        <div
+                            class="absolute top-0 right-0 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-bl-xl">
+                            鉄則 1</div>
+                        <div class="mb-4 text-4xl text-indigo-600"><i class="fa-solid fa-table-list"></i></div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 group-hover:text-indigo-600 transition-colors">
+                            「表・ノート整理」は絶対に出る</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                            過去5年間、大問4では必ず「比較の表」や「ノート整理」が出題されています。文章を読むときは常に「AとBの違い」を意識してメモを取る必要があります。
+                        </p>
+                        <div class="text-xs bg-slate-100 p-2 rounded text-slate-500 font-mono">
+                            R2:ヒトとサル / R4:擬態の種類 / R6:幼虫の成長
+                        </div>
+                    </div>
+
+                    <!-- Truth 2 -->
+                    <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
+                        <div
+                            class="absolute top-0 right-0 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-bl-xl">
+                            鉄則 2</div>
+                        <div class="mb-4 text-4xl text-amber-500"><i class="fa-solid fa-spell-check"></i></div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 group-hover:text-amber-600 transition-colors">
+                            動詞の変換が合否を分ける</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                            漢字だけでなく、動詞の活用や敬語の変換が頻出です。「来る→いらっしゃる」「見る→ご覧になる」。これらを反射的に答えられるかが勝負です。
+                        </p>
+                        <div class="text-xs bg-slate-100 p-2 rounded text-slate-500 font-mono">
+                            Target: 尊敬語・謙譲語・活用形
+                        </div>
+                    </div>
+
+                    <!-- Truth 3 -->
+                    <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
+                        <div
+                            class="absolute top-0 right-0 bg-slate-600 text-white text-xs font-bold px-3 py-1 rounded-bl-xl">
+                            鉄則 3</div>
+                        <div class="mb-4 text-4xl text-slate-600"><i class="fa-solid fa-file-pen"></i></div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 group-hover:text-slate-800 transition-colors">
+                            作文は「条件の奴隷」になれ</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                            「100字以上」「二段落構成」「キーワード使用」。これらの条件を一つでも破ると大幅減点です。内容の良さより、形式の遵守が優先されます。
+                        </p>
+                        <div class="text-xs bg-slate-100 p-2 rounded text-slate-500 font-mono">
+                            Rule: 条件を指差し確認する
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualization & Content Choices:
+             - Layout: Timeline / Process Flow.
+             - Content: Specific Logic Topics from R2-R6 reports.
+             - Goal: Prove the "Comparison" pattern visually.
+        -->
+        <!-- Logic Archive Section -->
+        <section id="logic-archive" class="max-w-5xl mx-auto px-4 py-20">
+            <h2 class="text-3xl font-black text-slate-900 mb-12 text-center serif-font">
+                <span class="border-b-4 border-indigo-200">論理の系譜：5カ年の比較テーマ</span>
+            </h2>
+
+            <div class="relative">
+                <div
+                    class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-slate-200 -translate-x-1/2 hidden md:block">
+                </div>
+
+                <div class="space-y-8">
+                    <!-- R6 -->
+                    <div class="flex flex-col md:flex-row items-center md:justify-between group">
+                        <div class="w-full md:w-5/12 order-2 md:order-1 text-left md:text-right">
+                            <div class="glass-card p-6 rounded-2xl border-l-4 border-indigo-500">
+                                <span class="text-xs font-bold text-indigo-500">令和6年度</span>
+                                <h4 class="text-lg font-bold text-slate-800 mt-1">幼虫の成長戦略</h4>
+                                <p class="text-sm text-slate-600 mt-2">高緯度（寒冷地）と低緯度（温暖地）での成長スピードの違いを表に整理。</p>
+                            </div>
+                        </div>
+                        <div
+                            class="w-8 h-8 bg-indigo-500 rounded-full border-4 border-white shadow flex items-center justify-center text-white text-xs z-10 order-1 md:order-2 mb-2 md:mb-0">
+                            R6</div>
+                        <div class="w-full md:w-5/12 order-3"></div>
+                    </div>
+
+                    <!-- R5 -->
+                    <div class="flex flex-col md:flex-row items-center md:justify-between group">
+                        <div class="w-full md:w-5/12 order-3 md:order-1"></div>
+                        <div
+                            class="w-8 h-8 bg-slate-400 rounded-full border-4 border-white shadow flex items-center justify-center text-white text-xs z-10 order-1 md:order-2 mb-2 md:mb-0">
+                            R5</div>
+                        <div class="w-full md:w-5/12 order-2 md:order-3 text-left">
+                            <div class="glass-card p-6 rounded-2xl border-l-4 border-slate-400">
+                                <span class="text-xs font-bold text-slate-500">令和5年度</span>
+                                <h4 class="text-lg font-bold text-slate-800 mt-1">言葉の役割</h4>
+                                <p class="text-sm text-slate-600 mt-2">母語と外国語を学ぶメリットの違いを、対比構造のノートにまとめる。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- R4 -->
+                    <div class="flex flex-col md:flex-row items-center md:justify-between group">
+                        <div class="w-full md:w-5/12 order-2 md:order-1 text-left md:text-right">
+                            <div class="glass-card p-6 rounded-2xl border-l-4 border-amber-500">
+                                <span class="text-xs font-bold text-amber-500">令和4年度</span>
+                                <h4 class="text-lg font-bold text-slate-800 mt-1">昆虫の擬態</h4>
+                                <p class="text-sm text-slate-600 mt-2">ベイツ型擬態とミューラー型擬態。定義と役割の違いを精密に分類。</p>
+                            </div>
+                        </div>
+                        <div
+                            class="w-8 h-8 bg-amber-500 rounded-full border-4 border-white shadow flex items-center justify-center text-white text-xs z-10 order-1 md:order-2 mb-2 md:mb-0">
+                            R4</div>
+                        <div class="w-full md:w-5/12 order-3"></div>
+                    </div>
+
+                    <!-- R3 -->
+                    <div class="flex flex-col md:flex-row items-center md:justify-between group">
+                        <div class="w-full md:w-5/12 order-3 md:order-1"></div>
+                        <div
+                            class="w-8 h-8 bg-slate-400 rounded-full border-4 border-white shadow flex items-center justify-center text-white text-xs z-10 order-1 md:order-2 mb-2 md:mb-0">
+                            R3</div>
+                        <div class="w-full md:w-5/12 order-2 md:order-3 text-left">
+                            <div class="glass-card p-6 rounded-2xl border-l-4 border-slate-400">
+                                <span class="text-xs font-bold text-slate-500">令和3年度</span>
+                                <h4 class="text-lg font-bold text-slate-800 mt-1">宇宙の構造</h4>
+                                <p class="text-sm text-slate-600 mt-2">銀河系と銀河団。規模と構成要素の違いを比較表に整理。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- R2 -->
+                    <div class="flex flex-col md:flex-row items-center md:justify-between group">
+                        <div class="w-full md:w-5/12 order-2 md:order-1 text-left md:text-right">
+                            <div class="glass-card p-6 rounded-2xl border-l-4 border-indigo-900">
+                                <span class="text-xs font-bold text-indigo-900">令和2年度</span>
+                                <h4 class="text-lg font-bold text-slate-800 mt-1">笑いの進化</h4>
+                                <p class="text-sm text-slate-600 mt-2">サルの「単独行動」とヒトの「社会性」。笑いの機能の違いを対比。</p>
+                            </div>
+                        </div>
+                        <div
+                            class="w-8 h-8 bg-indigo-900 rounded-full border-4 border-white shadow flex items-center justify-center text-white text-xs z-10 order-1 md:order-2 mb-2 md:mb-0">
+                            R2</div>
+                        <div class="w-full md:w-5/12 order-3"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualization & Content Choices:
+             - Layout: Actionable Checklists.
+             - Content: From "Final Strategy Roadmap".
+        -->
+        <!-- Strategy Roadmap -->
+        <section id="strategy" class="bg-indigo-900 text-white py-20 px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-black serif-font">最終攻略ロードマップ</h2>
+                    <p class="text-indigo-200 mt-4">85点以上を確実に取るための行動指針</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Step 1 -->
+                    <div class="bg-indigo-800/50 p-6 rounded-2xl border border-indigo-700 backdrop-blur-sm">
+                        <div class="text-3xl font-black text-indigo-400 mb-4">01</div>
+                        <h4 class="font-bold text-lg mb-2">知識の10分完答</h4>
+                        <p class="text-sm text-indigo-200 leading-relaxed">
+                            漢字・文法・敬語は開始10分で終わらせる。ここで時間を浪費すると、後半の記述が間に合わない。
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-indigo-800/50 p-6 rounded-2xl border border-indigo-700 backdrop-blur-sm">
+                        <div class="text-3xl font-black text-amber-400 mb-4">02</div>
+                        <h4 class="font-bold text-lg mb-2">抜き出しの指差し確認</h4>
+                        <p class="text-sm text-indigo-200 leading-relaxed">
+                            「〜から始まる一文」「五字で」。条件を指でなぞって確認するだけで、ケアレスミスは激減する。
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-indigo-800/50 p-6 rounded-2xl border border-indigo-700 backdrop-blur-sm">
+                        <div class="text-3xl font-black text-indigo-400 mb-4">03</div>
+                        <h4 class="font-bold text-lg mb-2">古文の主語補完</h4>
+                        <p class="text-sm text-indigo-200 leading-relaxed">
+                            古文を読む際は、動作の横に必ず「誰が」を書き込む。登場人物の関係図を余白に描くこと。
+                        </p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="bg-indigo-800/50 p-6 rounded-2xl border border-indigo-700 backdrop-blur-sm">
+                        <div class="text-3xl font-black text-amber-400 mb-4">04</div>
+                        <h4 class="font-bold text-lg mb-2">作文のテンプレート</h4>
+                        <p class="text-sm text-indigo-200 leading-relaxed">
+                            第1段落：資料の事実（30字）。第2段落：意見と体験（80字）。この型を守れば迷わない。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-500 py-12 text-center border-t border-slate-800">
+        <p class="text-sm font-bold text-slate-400">ECC藍住のK</p>
+        <p class="text-xs mt-2 opacity-60">&copy; 2026 ECCベストワン藍住・北島中央</p>
+    </footer>
+
+    <!-- JS Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            initCharts();
+        });
+
+        function initCharts() {
+            // 1. Score Distribution (Doughnut)
+            const scoreCtx = document.getElementById('scoreChart').getContext('2d');
+            new Chart(scoreCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['知識・文法 (15pt)', '文学的文章 (25pt)', '古典 (15pt)', '論理的文章 (30pt)', '作文・表現 (15pt)'],
+                    datasets: [{
+                        data: [15, 25, 15, 30, 15],
+                        backgroundColor: [
+                            '#64748b', // slate-500
+                            '#94a3b8', // slate-400
+                            '#cbd5e1', // slate-300
+                            '#4f46e5', // indigo-600 (Highlight Logic)
+                            '#f59e0b'  // amber-500 (Highlight Writing)
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right', labels: { font: { family: "'Noto Sans JP', sans-serif" } } }
+                    },
+                    cutout: '65%'
+                }
+            });
+
+            // 2. Skill Radar (Radar)
+            const skillCtx = document.getElementById('skillChart').getContext('2d');
+            new Chart(skillCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['正確な抜き出し', '比較・分類能力', '文法・敬語知識', '心情理解', '条件作文の運用'],
+                    datasets: [{
+                        label: '要求スキルレベル',
+                        data: [95, 90, 85, 80, 95], // High on Extraction and Writing
+                        backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                        borderColor: '#4f46e5',
+                        pointBackgroundColor: '#4f46e5',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { display: false },
+                            grid: { color: '#e2e8f0' },
+                            pointLabels: { font: { size: 11, family: "'Noto Sans JP', sans-serif" } }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+    </script>
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. Charts rendered via Chart.js Canvas. -->
+</body>
+
+</html>

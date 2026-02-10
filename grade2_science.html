@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>徳島県基礎学力テスト（2年理科）5カ年徹底分析</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Chosen Palette: Emerald (Science/Nature) & Slate (Professional/Text) -->
+    <!-- Application Structure Plan:
+         1. Hero Dashboard: High-level insights (4 fields split, 1st-year content weight).
+         2. Field Deep Dive: Interactive cards for Physics, Chemistry, Biology, Earth Science with specific trends from the report.
+         3. Skill Radar: Visualizing the shift from memorization to calculation/logic.
+         4. Iron Rules & Strategy: Interactive "Flashcards" for descriptive templates and unit conversion checklists.
+         5. Final Predictions: Highlighted target units for the next test.
+    -->
+
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f0fdf4;
+            /* emerald-50 */
+            color: #0f172a;
+            /* slate-900 */
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .flip-card {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            flex-direction: column;
+        }
+
+        .flip-card-back {
+            background-color: #059669;
+            /* emerald-600 */
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front {
+            background-color: white;
+            border: 2px solid #e2e8f0;
+        }
+
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-emerald-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-black tracking-tight flex items-center gap-2">
+                <span>🔬</span> 徳島県基礎学力テスト（2年理科）分析ラボ
+            </h1>
+            <nav class="hidden md:flex space-x-6 text-sm font-bold">
+                <a href="#dashboard" class="hover:text-emerald-200 transition">全体概況</a>
+                <a href="#fields" class="hover:text-emerald-200 transition">分野別分析</a>
+                <a href="#strategy" class="hover:text-emerald-200 transition">攻略の鉄則</a>
+                <a href="#prediction" class="hover:text-emerald-200 transition">最終予想</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Content Wrapper -->
+    <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <!-- Dashboard Section: Overview -->
+        <section id="dashboard" class="space-y-6">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <h2 class="text-3xl font-bold text-emerald-900 mb-4">5カ年徹底分析レポート概要</h2>
+                <p class="text-slate-600 leading-relaxed">
+                    令和2年度から令和6年度までの全データを精査。徳島県の理科は「暗記」から「実験結果の数値処理」へシフトしています。
+                    平均点は55〜65点で安定していますが、合否を分けるのは<span class="font-bold text-red-600">「1年生範囲の定着度」</span>と<span
+                        class="font-bold text-red-600">「計算力」</span>です。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Insight Card 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-emerald-500 card-hover">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">配分ルール</h3>
+                    <p class="text-3xl font-black text-emerald-600 mb-1">均等 25点</p>
+                    <p class="text-sm text-slate-500">生物・化学・物理・地学の4分野から必ず均等に出題されます。</p>
+                </div>
+                <!-- Insight Card 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-amber-500 card-hover">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">1年生範囲の比重</h3>
+                    <p class="text-3xl font-black text-amber-600 mb-1">30〜40%</p>
+                    <p class="text-sm text-slate-500">2年生のテストですが、約4割は1年生の内容（密度、光、植物など）です。</p>
+                </div>
+                <!-- Chart Card -->
+                <div
+                    class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 md:col-span-2 lg:col-span-1 flex flex-col justify-center items-center">
+                    <h3 class="text-sm font-bold text-slate-500 mb-2">分野別配点比率</h3>
+                    <div class="chart-container" style="height: 180px;">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Field Analysis Section -->
+        <section id="fields" class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-slate-100 pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">分野別詳細分析</h2>
+                    <p class="text-sm text-slate-500 mt-1">5年間の出題傾向と「急所」</p>
+                </div>
+                <!-- Radar Chart Toggle -->
+                <div class="mt-4 md:mt-0">
+                    <button id="showRadarBtn"
+                        class="text-xs font-bold bg-slate-100 text-slate-600 px-4 py-2 rounded-full hover:bg-slate-200 transition">
+                        スキル傾向を表示
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Physics -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-2xl">⚡</span>
+                        <h3 class="text-xl font-bold text-indigo-700">物理分野</h3>
+                    </div>
+                    <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100 h-full">
+                        <p class="font-bold text-sm text-indigo-900 mb-2">計算と単位換算の主戦場</p>
+                        <ul class="list-disc list-inside text-sm text-slate-700 space-y-2">
+                            <li><span class="font-bold">電気:</span> オームの法則、電力(W)・熱量(J)計算。</li>
+                            <li><span class="font-bold">圧力:</span> 令和6年度出題。<span
+                                    class="bg-red-100 text-red-700 px-1 rounded">cm² → m²</span> の換算ミスが多発。</li>
+                            <li><span class="font-bold">光・音:</span> 作図（反射・屈折）と振動数計算。</li>
+                        </ul>
+                        <div class="mt-4 p-3 bg-white rounded-lg text-xs border border-indigo-200">
+                            <span class="font-bold text-red-500">注意:</span> mA → A の変換（÷1000）を忘れないこと！
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chemistry -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-2xl">🧪</span>
+                        <h3 class="text-xl font-bold text-blue-700">化学分野</h3>
+                    </div>
+                    <div class="bg-blue-50 p-5 rounded-xl border border-blue-100 h-full">
+                        <p class="font-bold text-sm text-blue-900 mb-2">比の計算と記述テンプレート</p>
+                        <ul class="list-disc list-inside text-sm text-slate-700 space-y-2">
+                            <li><span class="font-bold">質量比:</span> 酸化銅(4:1)、酸化マグネシウム(3:2)は暗記必須。</li>
+                            <li><span class="font-bold">質量保存:</span> 「気体が逃げたから」という記述は5年で何度も出題。</li>
+                            <li><span class="font-bold">1年範囲:</span> 密度計算、水溶液の濃度計算も容赦なく出る。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Biology -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-2xl">🌿</span>
+                        <h3 class="text-xl font-bold text-green-700">生物分野</h3>
+                    </div>
+                    <div class="bg-green-50 p-5 rounded-xl border border-green-100 h-full">
+                        <p class="font-bold text-sm text-green-900 mb-2">対照実験の論理構成</p>
+                        <ul class="list-disc list-inside text-sm text-slate-700 space-y-2">
+                            <li><span class="font-bold">実験:</span> だ液（消化）、光合成。「なぜその操作をするか」を問う。</li>
+                            <li><span class="font-bold">分類:</span> 植物（被子・裸子・コケ・シダ）と動物（節足・軟体）の特徴。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Earth Science -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-2xl">🌍</span>
+                        <h3 class="text-xl font-bold text-amber-700">地学分野</h3>
+                    </div>
+                    <div class="bg-amber-50 p-5 rounded-xl border border-amber-100 h-full">
+                        <p class="font-bold text-sm text-amber-900 mb-2">天気図読解と計算の融合</p>
+                        <ul class="list-disc list-inside text-sm text-slate-700 space-y-2">
+                            <li><span class="font-bold">天気:</span> <span
+                                    class="bg-red-100 text-red-700 px-1 rounded">湿度の計算</span>は過去5年で最多出題の計算問題。</li>
+                            <li><span class="font-bold">大地:</span> 柱状図から地層の傾きを読み取る思考力問題（R4等）に注意。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hidden Radar Chart Container -->
+            <div id="radarContainer" class="hidden mt-10 border-t border-slate-100 pt-8">
+                <h4 class="text-center font-bold text-slate-600 mb-4">求められる力のバランス</h4>
+                <div class="chart-container">
+                    <canvas id="skillRadar"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Strategy Section: Iron Rules & Keyword Matcher -->
+        <section id="strategy" class="space-y-8">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-slate-800">得点力を最大化する「攻略の鉄則」</h2>
+                <p class="text-sm text-slate-500 mt-2">記述問題は「キーワード」が命です。カードをタップして模範解答を確認しましょう。</p>
+            </div>
+
+            <!-- Interactive Keyword Flashcards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="flip-card h-48" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front shadow-md">
+                            <span class="text-xs font-bold text-blue-500 uppercase tracking-widest mb-2">化学：鉄と硫黄</span>
+                            <h4 class="text-lg font-bold text-slate-800">なぜ加熱を止めても<br>反応が続くのか？</h4>
+                            <p class="text-xs text-slate-400 mt-4">タップして答えを表示</p>
+                        </div>
+                        <div class="flip-card-back shadow-md">
+                            <p class="font-bold leading-relaxed">「反応で発生した<span
+                                    class="text-yellow-300">熱</span>により、次の反応が<span
+                                    class="text-yellow-300">連鎖的</span>に起こったため」</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flip-card h-48" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front shadow-md">
+                            <span class="text-xs font-bold text-green-500 uppercase tracking-widest mb-2">生物：対照実験</span>
+                            <h4 class="text-lg font-bold text-slate-800">なぜ条件を変えた<br>別の実験を行うのか？</h4>
+                            <p class="text-xs text-slate-400 mt-4">タップして答えを表示</p>
+                        </div>
+                        <div class="flip-card-back shadow-md">
+                            <p class="font-bold leading-relaxed">「だ液以外の<span
+                                    class="text-yellow-300">条件を同じにして比較</span>するため」</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flip-card h-48" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front shadow-md">
+                            <span class="text-xs font-bold text-amber-500 uppercase tracking-widest mb-2">地学：露点</span>
+                            <h4 class="text-lg font-bold text-slate-800">コップの表面が<br>くもった理由は？</h4>
+                            <p class="text-xs text-slate-400 mt-4">タップして答えを表示</p>
+                        </div>
+                        <div class="flip-card-back shadow-md">
+                            <p class="font-bold leading-relaxed">「空気中の<span
+                                    class="text-yellow-300">水蒸気</span>が冷やされて<span
+                                    class="text-yellow-300">露点</span>に達し、<span class="text-yellow-300">水滴</span>になったため」
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unit Conversion Checklist -->
+            <div class="bg-slate-800 text-white rounded-2xl p-6 md:p-8 mt-8">
+                <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <span>⚠️</span> 計算ミス撲滅：単位操作ルーチン
+                </h3>
+                <p class="text-slate-300 text-sm mb-6">計算式ではなく「単位」で間違える生徒が9割です。問題用紙の余白にこれを書き出しましょう。</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div class="bg-slate-700 p-4 rounded-lg">
+                        <div class="text-xs text-slate-400 mb-1">質量 → 力</div>
+                        <div class="text-xl font-mono font-bold text-emerald-400">100g = 1N</div>
+                    </div>
+                    <div class="bg-slate-700 p-4 rounded-lg">
+                        <div class="text-xs text-slate-400 mb-1">面積</div>
+                        <div class="text-xl font-mono font-bold text-emerald-400">cm² ÷ 10000 = m²</div>
+                    </div>
+                    <div class="bg-slate-700 p-4 rounded-lg">
+                        <div class="text-xs text-slate-400 mb-1">電流</div>
+                        <div class="text-xl font-mono font-bold text-emerald-400">mA ÷ 1000 = A</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Prediction Section -->
+        <section id="prediction"
+            class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-8 text-white shadow-xl">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold mb-2">分析官による「重点攻略」ターゲット</h2>
+                    <p class="text-emerald-100 text-sm mb-6">テスト本番に向けて、特に以下の3点を重点的に復習してください。</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-3">
+                            <span
+                                class="bg-white text-emerald-600 font-bold rounded-full w-6 h-6 flex items-center justify-center text-xs">1</span>
+                            <span class="font-bold">地学：飽和水蒸気量と湿度の計算</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span
+                                class="bg-white text-emerald-600 font-bold rounded-full w-6 h-6 flex items-center justify-center text-xs">2</span>
+                            <span class="font-bold">物理：オームの法則と電力量(J)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span
+                                class="bg-white text-emerald-600 font-bold rounded-full w-6 h-6 flex items-center justify-center text-xs">3</span>
+                            <span class="font-bold">共通：グラフの「変化点（折れ曲がり）」の意味</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="md:w-1/3 bg-white/10 p-6 rounded-2xl backdrop-blur-sm border border-white/20">
+                    <h4 class="font-bold text-sm mb-2 opacity-80">分析官より</h4>
+                    <p class="text-xs leading-relaxed italic">
+                        「過去問を単に解くのではなく、なぜその選択肢が正解なのかを説明できるレベルまで高めてください。そうすれば400点超えは確実です。」
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm">ECC藍住のK</p>
+            <p class="text-xs mt-2 opacity-50">&copy; 2026 ECCベストワン藍住・北島中央</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. Distribution Chart (Doughnut)
+            const distCtx = document.getElementById('distributionChart').getContext('2d');
+            new Chart(distCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['生物', '化学', '物理', '地学'],
+                    datasets: [{
+                        data: [25, 25, 25, 25],
+                        backgroundColor: [
+                            '#34d399', // emerald-400
+                            '#60a5fa', // blue-400
+                            '#818cf8', // indigo-400
+                            '#fbbf24'  // amber-400
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            // 2. Skill Radar Chart
+            const radarCtx = document.getElementById('skillRadar').getContext('2d');
+            new Chart(radarCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['暗記', '計算処理', '論理的思考', 'グラフ読解', '記述力'],
+                    datasets: [{
+                        label: '要求スキルレベル',
+                        data: [60, 90, 80, 85, 75],
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        borderColor: '#10b981',
+                        pointBackgroundColor: '#10b981',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                display: false
+                            },
+                            grid: {
+                                color: '#e2e8f0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // 3. Toggle Logic for Radar Chart
+            const showRadarBtn = document.getElementById('showRadarBtn');
+            const radarContainer = document.getElementById('radarContainer');
+
+            showRadarBtn.addEventListener('click', () => {
+                if (radarContainer.classList.contains('hidden')) {
+                    radarContainer.classList.remove('hidden');
+                    showRadarBtn.textContent = 'スキル傾向を隠す';
+                    // Re-render chart to ensure size is correct after unhiding
+                    window.dispatchEvent(new Event('resize'));
+                } else {
+                    radarContainer.classList.add('hidden');
+                    showRadarBtn.textContent = 'スキル傾向を表示';
+                }
+            });
+        });
+    </script>
+
+    <!-- Placeholder Comments Required -->
+    <!-- Chosen Palette: Emerald & Slate -->
+    <!-- Application Structure Plan: Dashboard -> Field Deep Dive -> Interactive Flashcards -> Predictions. Designed to shift focus from passive reading to active checking of "Iron Rules". -->
+    <!-- Visualization & Content Choices: Doughnut Chart for distribution (shows equality), Radar Chart for skill balance (shows calculation focus). Flashcards for keywords. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+</body>
+
+</html>
