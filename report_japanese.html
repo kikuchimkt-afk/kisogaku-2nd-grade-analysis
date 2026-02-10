@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【国語】論理的思考「パズル」の解き方</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ベーススタイル：原稿用紙風 */
+        body {
+            font-family: 'Shippori Mincho', serif;
+            background-color: #fafaf9;
+            /* Stone-50 */
+            color: #1c1917;
+            /* Stone-900 */
+            line-height: 2.2;
+            /* 日本語本来の余白 */
+            padding-bottom: 5rem;
+        }
+
+        /* 縦書き・原稿用紙風グリッド */
+        .genkou-youshi {
+            background-image:
+                linear-gradient(transparent 95%, #e7e5e4 95%),
+                linear-gradient(90deg, transparent 95%, #e7e5e4 95%);
+            background-size: 2rem 2rem;
+            border: 2px solid #a8a29e;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 5px 5px 0 #d6d3d1;
+        }
+
+        /* 赤ペンの書き込み */
+        .red-check {
+            color: #dc2626;
+            font-weight: 800;
+            border: 2px solid #dc2626;
+            padding: 0.2rem 0.5rem;
+            border-radius: 50% 60% 40% 70% / 50% 50% 60% 40%;
+            display: inline-block;
+            transform: rotate(-3deg);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* マーカー（線） */
+        .marker-red-line {
+            background: linear-gradient(transparent 70%, rgba(254, 202, 202, 0.6) 70%);
+            padding-bottom: 2px;
+        }
+
+        /* 文学的な囲み */
+        .classic-box {
+            border-top: 2px solid #57534e;
+            border-bottom: 2px solid #57534e;
+            padding: 1.5rem 0;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        /* 付箋（和風） */
+        .fusen-jp {
+            background-color: #fef3c7;
+            /* Amber-100 */
+            border-left: 4px solid #d97706;
+            padding: 1rem;
+            font-family: 'Zen Maru Gothic', sans-serif;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 論理構造の図解 */
+        .logic-flow {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .logic-step {
+            background: white;
+            border: 1px solid #78716c;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body class="antialiased px-4 pt-4">
+
+    <!-- ナビゲーション -->
+    <div class="max-w-3xl mx-auto mb-12 flex justify-between items-end border-b-2 border-stone-800 pb-2">
+        <a href="index.html"
+            class="inline-flex items-center gap-2 text-stone-600 hover:text-stone-900 transition font-bold text-sm">
+            <i class="fa-solid fa-arrow-left"></i> 戻る
+        </a>
+        <div class="text-right">
+            <p class="text-xs text-stone-500">保存版</p>
+            <h1 class="text-2xl font-black font-serif tracking-widest">國語・攻略之書</h1>
+        </div>
+    </div>
+
+    <!-- コンテンツエリア -->
+    <div class="max-w-3xl mx-auto space-y-16">
+
+        <!-- Chapter 1: 現代文 -->
+        <section>
+            <div class="flex items-center gap-4 mb-6">
+                <span class="text-4xl font-black text-stone-300">壱</span>
+                <h2 class="text-2xl font-bold border-l-4 border-stone-800 pl-4 py-1">
+                    現代文は<span class="marker-red-line">「探す」</span>ゲーム
+                </h2>
+            </div>
+
+            <div class="genkou-youshi bg-stone-50">
+                <p class="text-lg leading-loose mb-6">
+                    国語で点が取れない人は、「自分の考え」を書こうとしている。<br>
+                    間違いだ。<span class="red-check">答えはすべて本文にある。</span><br>
+                    テスト作成者が隠した「宝探し」をするだけだ。
+                </p>
+
+                <div class="bg-white border p-6 shadow-sm font-sans mt-4">
+                    <p class="font-bold text-stone-600 mb-2 border-b pb-1">■ 論説文の鉄則</p>
+                    <p class="mb-2">
+                        「しかし」「だが」の<span class="font-bold text-red-600">逆接の後ろ</span>を見ろ。<br>
+                        そこに筆者の主張の9割がある。
+                    </p>
+                    <div class="logic-flow text-xs md:text-sm">
+                        <div class="logic-step text-stone-400">一般論</div>
+                        <i class="fa-solid fa-arrow-right text-stone-400"></i>
+                        <div class="logic-step bg-red-50 border-red-200 text-red-600 font-black">逆接 (しかし)</div>
+                        <i class="fa-solid fa-arrow-right text-red-500"></i>
+                        <div class="logic-step bg-yellow-50 border-yellow-200 font-bold border-2">★筆者の主張</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 2: 作文 -->
+        <section>
+            <div class="flex items-center gap-4 mb-6">
+                <span class="text-4xl font-black text-stone-300">弐</span>
+                <h2 class="text-2xl font-bold border-l-4 border-stone-800 pl-4 py-1">
+                    作文は<span class="marker-red-line">「型」</span>にはめる
+                </h2>
+            </div>
+
+            <div class="fusen-jp">
+                <p class="font-bold text-lg mb-2 text-stone-800">
+                    <i class="fa-solid fa-stamp text-amber-600 mr-2"></i>
+                    満点を狙うな、減点されない文章を書け
+                </p>
+                <p class="text-stone-700 text-sm">
+                    基礎学の作文（大問5）は、だいたい「資料を見て意見を書く」パターンだ。<br>
+                    独創的な意見はいらない。<span class="font-bold">この構成だけでいい。</span>
+                </p>
+            </div>
+
+            <div class="mt-6 space-y-4 font-serif text-lg">
+                <div class="flex gap-4 items-start">
+                    <div
+                        class="bg-stone-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+                        1</div>
+                    <div>
+                        <p class="font-bold text-stone-600 text-sm">【結論】</p>
+                        <p>「私は、〜という意見に賛成だ。」</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 items-start">
+                    <div
+                        class="bg-stone-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+                        2</div>
+                    <div>
+                        <p class="font-bold text-stone-600 text-sm">【理由：資料から】</p>
+                        <p>「資料１を見ると、〜が増えていることがわかるからだ。」</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 items-start">
+                    <div
+                        class="bg-stone-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+                        3</div>
+                    <div>
+                        <p class="font-bold text-stone-600 text-sm">【まとめ】</p>
+                        <p>「したがって、これからは〜が必要だと考える。」</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center text-sm text-stone-500 bg-stone-100 p-2 rounded">
+                ※これでだいたい120〜150字になる。文字数調整は最後の一文でしろ。
+            </div>
+        </section>
+
+        <!-- Chapter 3: 古典 -->
+        <section>
+            <div class="flex items-center gap-4 mb-6">
+                <span class="text-4xl font-black text-stone-300">参</span>
+                <h2 class="text-2xl font-bold border-l-4 border-stone-800 pl-4 py-1">
+                    古文の<span class="marker-red-line">「主語」</span>を補え
+                </h2>
+            </div>
+
+            <div class="bg-white p-6 border-2 border-stone-800 relative">
+                <div
+                    class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white px-4 font-bold text-stone-800 border border-stone-800 text-sm">
+                    古文読解の極意
+                </div>
+                <p class="leading-loose">
+                    古文（大問3）が読めないのは、単語を知らないからじゃない。<br>
+                    <span class="font-bold">「誰が」喋ってるか分からないからだ。</span><br>
+                    <br>
+                    登場人物に◯とか△とか記号をつけろ。<br>
+                    会話文（「　」）が出てきたら、必ずその横に<br>
+                    <span class="red-check">「誰から誰へ」</span>とメモしろ。<br>
+                    それだけで話が見えてくる。
+                </p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <div class="text-center py-12 border-t border-stone-300 mt-12">
+            <p class="text-xs text-stone-500 mb-2 font-bold">ECC藍住のK</p>
+            <p class="text-xs text-stone-400 mt-4 font-sans">&copy; 2026 ECCベストワン藍住・北島中央</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

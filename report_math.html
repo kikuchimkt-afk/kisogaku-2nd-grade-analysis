@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【極秘】数学攻略 手書きノート | 基礎学力テスト対策</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Handwriting style -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Klee+One:wght@400;600&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Klee One', cursive;
+            /* 手書き風フォント */
+            background-color: #f0f4f8;
+            background-image:
+                linear-gradient(#e1e6eb 1px, transparent 1px),
+                linear-gradient(90deg, #e1e6eb 1px, transparent 1px);
+            background-size: 20px 20px;
+            /* 方眼紙風 */
+            color: #2d3748;
+        }
+
+        .handwritten-title {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            letter-spacing: 0.1em;
+        }
+
+        .tape {
+            background-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            height: 30px;
+            width: 100px;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            z-index: 10;
+            border-left: 1px dashed rgba(0, 0, 0, 0.1);
+            border-right: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .marker-yellow {
+            background: linear-gradient(transparent 60%, #fefcbf 60%);
+        }
+
+        .marker-red {
+            background: linear-gradient(transparent 60%, #fed7d7 60%);
+        }
+
+        .red-pen {
+            color: #e53e3e;
+            font-family: 'Klee One', cursive;
+            font-weight: bold;
+            transform: rotate(-2deg);
+            display: inline-block;
+        }
+
+        .notebook-paper {
+            background-color: #fff;
+            background-image: linear-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 100% 2rem;
+            line-height: 2rem;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .notebook-paper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 3rem;
+            width: 2px;
+            background-color: #f56565;
+            /* 赤い縦線 */
+            opacity: 0.3;
+        }
+
+        .sticky-note {
+            background-color: #fefcbf;
+            /* yellow-100 */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            font-family: 'Zen Maru Gothic', sans-serif;
+            transform: rotate(1deg);
+            transition: transform 0.2s;
+        }
+
+        .sticky-note:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .sticky-note::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border-width: 0 0 15px 15px;
+            border-style: solid;
+            border-color: #fbd38d #fff #fbd38d #fbd38d;
+            /* めくれ効果 */
+            box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .circle-sketch {
+            border: 3px solid #e53e3e;
+            border-radius: 50% 40% 60% 30% / 40% 50% 60% 50%;
+            padding: 0.2rem 0.5rem;
+        }
+    </style>
+</head>
+
+<body class="py-10 px-4 md:px-0">
+
+    <div class="max-w-4xl mx-auto space-y-12">
+
+        <!-- Header Section -->
+        <div
+            class="relative bg-white p-8 md:p-12 rounded-sm shadow-xl transform rotate-1 paper-texture border border-slate-200">
+            <div class="tape"></div>
+            <div class="text-center space-y-4">
+                保存版
+                </span>
+                <h1 class="text-4xl md:text-5xl font-black handwritten-title text-slate-800 leading-tight">
+                    <span class="marker-yellow">基礎学【数学】</span><br>
+                    直前・泥臭い攻略ノート
+                </h1>
+                <p class="text-lg text-slate-600 font-bold mt-4">
+                    〜 綺麗事は言わない。点をもぎ取るためのメモ 〜
+                </p>
+            </div>
+
+            <!-- Absolute Stamp -->
+            <div class="absolute top-4 right-4 md:right-10 transform rotate-12 opacity-80">
+                <div class="border-4 border-red-600 text-red-600 rounded-full w-24 h-24 flex items-center justify-center font-black text-xl tracking-widest"
+                    style="border-radius: 50% 40% 60% 40%;">
+                    極秘<br>資料
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 1: The Reality -->
+        <div class="handwritten-title text-2xl font-bold flex items-center gap-2 pl-4 border-l-8 border-indigo-500">
+            1. まず、現実を見ようか。
+        </div>
+
+        <div class="bg-white p-6 md:p-8 rounded-lg shadow-md relative group">
+            <div
+                class="bg-indigo-100 absolute -top-3 -left-3 px-4 py-1 font-bold text-indigo-800 rounded transform -rotate-2 shadow-sm">
+                配点の真実
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-8 items-center mt-4">
+                <div class="flex-1 space-y-4">
+                    <p class="text-xl leading-relaxed">
+                        みんな「関数が〜」とか「証明が〜」とか言うけどさ、<br>
+                        一番大事なのはそこじゃないんだよ。<br>
+                        <span class="text-red-600 font-bold text-2xl marker-yellow px-1">大問1だけで48点</span>あるって知ってた？
+                    </p>
+                    <p class="text-lg">
+                        50点満点のテストじゃないぞ。100点満点の約半分が「計算などの基本問題」だ。<br>
+                        ここを落としてるうちは、応用問題に手を出しても意味がない！
+                    </p>
+                </div>
+                <div class="w-full md:w-64 bg-slate-100 p-4 rounded border-2 border-slate-300 transform rotate-1">
+                    <div class="text-center font-bold text-slate-500 mb-2 border-b border-slate-300 pb-2">配点イメージ</div>
+                    <div class="space-y-2 text-sm font-bold">
+                        <div class="flex justify-between items-center">
+                            <span>大問1</span>
+                            <span class="text-red-500 text-xl circle-sketch">48点</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-400">
+                            <span>大問2</span>
+                            <span>10点</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-400">
+                            <span>大問3</span>
+                            <span>12点</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-400">
+                            <span>大問4</span>
+                            <span>15点</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-400">
+                            <span>大問5</span>
+                            <span>15点</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Handwritten Notes -->
+        <div class="handwritten-title text-2xl font-bold flex items-center gap-2 pl-4 border-l-8 border-amber-500">
+            2. よく出る「ひっかけ」パターン
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Note 1 -->
+            <div class="sticky-note p-6 relative">
+                <div
+                    class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-200 w-8 h-8 rounded-full opacity-50">
+                </div> <!-- Pin hole -->
+                <h3 class="text-xl font-bold text-amber-900 border-b-2 border-amber-800/20 pb-2 mb-3">
+                    ① 方程式の「昨年」問題
+                </h3>
+                <p class="leading-loose text-amber-900">
+                    「今年」の人数を聞かれていても、<br>
+                    <span class="red-pen text-xl">必ず「昨年」を x, y と置くこと！</span><br>
+                    今年の人数を x にすると計算が地獄になるぞ。<br>
+                    で、最後に計算して出た x（昨年の人数）に増減分を足すのを忘れるなよ！
+                </p>
+                <div class="mt-4 text-right">
+                    <span class="text-xs text-amber-700 font-bold border border-amber-700 px-2 py-1 rounded">R3, R4
+                        出題</span>
+                </div>
+            </div>
+
+            <!-- Note 2 -->
+            <div class="sticky-note p-6 relative" style="background-color: #e6fffa; transform: rotate(-1deg);">
+                <div
+                    class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-200 w-8 h-8 rounded-full opacity-50">
+                </div>
+                <h3 class="text-xl font-bold text-teal-900 border-b-2 border-teal-800/20 pb-2 mb-3">
+                    ② 作図は「アレ」が出る
+                </h3>
+                <p class="leading-loose text-teal-900">
+                    難しいことは言わない。<br>
+                    ・<span class="marker-yellow">垂直二等分線</span>（2点からの距離が等しい）<br>
+                    ・<span class="marker-yellow">角の二等分線</span>（2辺からの距離が等しい）<br>
+                    この2つの日本語の違い、説明できるか？<br>
+                    迷ったら問題文の「辺」か「点」に丸をつけろ！
+                </p>
+            </div>
+        </div>
+
+        <!-- Section 3: The Calculation Trap -->
+        <div class="handwritten-title text-2xl font-bold flex items-center gap-2 pl-4 border-l-8 border-red-500">
+            3. これだけは覚えとけ（記述編）
+        </div>
+
+        <div class="notebook-paper p-8 rounded shadow-lg text-lg">
+            <p>
+                大問2の「文字式の説明」な。<br>
+                あれ、毎回<span class="red-pen">「書き出し」</span>で手が止まるやつ多すぎ。<br>
+                迷わずこう書け。
+            </p>
+
+            <div class="my-6 pl-4 md:pl-8 border-l-4 border-indigo-300 italic text-slate-600">
+                <p class="mb-2">"nを整数とすると、連続する3つの整数は、"</p>
+                <p class="mb-2">"n, n+1, n+2 と表される。"</p>
+                <p>"それらの和は..."</p>
+            </div>
+
+            <p>
+                この「定義宣言」の1行目がないと、その後の計算合ってても減点だからな。<br>
+                あと、<span class="marker-yellow">「したがって、〜は〜である」</span>っていう結論の行も忘れるなよ。<br>
+                サンドイッチと同じだ。パン（定義と結論）がないと具（計算）がこぼれるぞ。
+            </p>
+
+            <div
+                class="absolute bottom-4 right-6 text-red-600 transform -rotate-12 font-bold border-2 border-red-600 px-2 py-1 rounded text-sm">
+                ここテストに出るぞ
+            </div>
+        </div>
+
+        <!-- Footer Message -->
+        <div class="text-center space-y-6 pt-10 pb-20">
+            <div class="inline-block bg-slate-800 text-white px-8 py-4 rounded-xl shadow-2xl transform rotate-1">
+                <p class="text-xl font-bold">
+                    「わかった」で終わるな。<br>
+                    <span class="text-yellow-400">「できる」</span>まで手を動かせ。
+                </p>
+                <p class="text-sm mt-2 text-slate-400 text-right">ECC藍住のK</p>
+            </div>
+
+            <div class="mt-8">
+                <a href="index.html"
+                    class="inline-flex items-center gap-2 text-indigo-600 font-bold hover:underline transition">
+                    <i class="fa-solid fa-arrow-left"></i> ポータルに戻る
+                </a>
+            </div>
+
+            <!-- CopyRight -->
+            <div class="text-center py-10">
+                <p class="text-slate-400 text-sm mt-4">&copy; 2026 ECCベストワン藍住・北島中央</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

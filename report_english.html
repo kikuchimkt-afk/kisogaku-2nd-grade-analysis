@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【英語】阿波踊り×長文読解 攻略ノート</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ベーススタイル：ノートブック */
+        body {
+            font-family: 'Klee One', cursive;
+            background-color: #fce7f3;
+            /* Pink-100 */
+            /* 罫線 */
+            background-image:
+                linear-gradient(#fbcfe8 1px, transparent 1px);
+            background-size: 100% 2.0rem;
+            /* 罫線幅 */
+            line-height: 2.0rem;
+            /* 罫線に合わせる */
+            color: #4c0519;
+            /* Pink-950 */
+            padding-bottom: 5rem;
+        }
+
+        /* 英語用のフォント調整 */
+        .en-font {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            font-weight: bold;
+        }
+
+        /* ノートページコンテナ */
+        .notebook-page {
+            background-color: #fff;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            position: relative;
+            margin-top: 2rem;
+            padding: 3rem 2rem;
+            border-radius: 4px;
+            /* ノートの赤線（マージンライン） */
+            border-left: 4px solid #fecaca;
+        }
+
+        /* バインダー穴 */
+        .binder-hole {
+            position: absolute;
+            left: 10px;
+            width: 15px;
+            height: 15px;
+            background-color: #fce7f3;
+            border-radius: 50%;
+            box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 蛍光ペン */
+        .marker-pink {
+            background: linear-gradient(transparent 50%, rgba(244, 114, 182, 0.4) 50%);
+            padding: 0 4px;
+        }
+
+        .marker-blue {
+            background: linear-gradient(transparent 50%, rgba(96, 165, 250, 0.4) 50%);
+            padding: 0 4px;
+        }
+
+        /* 吹き出し（先生のコメント） */
+        .teacher-bubble {
+            background-color: #e0f2fe;
+            border: 2px solid #7dd3fc;
+            border-radius: 20px;
+            padding: 1rem;
+            position: relative;
+            font-size: 0.9rem;
+            color: #0369a1;
+            line-height: 1.5;
+            margin-top: 1rem;
+        }
+
+        .teacher-bubble::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            border-width: 0 10px 10px 10px;
+            border-style: solid;
+            border-color: #7dd3fc transparent;
+            display: block;
+            width: 0;
+        }
+
+        /* 単語カード風 */
+        .flashcard {
+            background-color: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 3px 3px 0 #cbd5e1;
+            transform: rotate(-1deg);
+        }
+
+        .flashcard:nth-child(even) {
+            transform: rotate(1deg);
+            background-color: #fff1f2;
+            /* pink-50 */
+        }
+    </style>
+</head>
+
+<body class="antialiased px-4 pt-4">
+
+    <!-- ナビゲーション -->
+    <div
+        class="max-w-3xl mx-auto mb-8 flex justify-between items-center bg-white/50 backdrop-blur p-2 rounded-full px-4">
+        <a href="index.html"
+            class="inline-flex items-center gap-2 text-pink-700 hover:text-pink-900 transition font-bold">
+            <i class="fa-solid fa-arrow-left"></i> Back to Portal
+        </a>
+        <span class="text-xs font-bold text-pink-400">ENGLISH STRATEGY</span>
+    </div>
+
+    <!-- コンテンツエリア -->
+    <div class="max-w-3xl mx-auto space-y-12">
+
+        <!-- Title Section -->
+        <div class="text-center relative py-12">
+            <h1 class="text-4xl md:text-6xl font-black text-pink-900 drop-shadow-sm transform -rotate-2"
+                style="font-family: 'Zen Maru Gothic'">
+                English<br>
+                <span class="text-3xl md:text-5xl block mt-2">最強の「地元ネタ」対策</span>
+            </h1>
+            <div
+                class="absolute top-0 right-0 md:right-10 bg-yellow-300 text-pink-800 font-bold px-4 py-2 rounded-full transform rotate-12 shadow-lg border-2 border-white animate-bounce">
+                徳島限定！
+            </div>
+        </div>
+
+        <!-- Chapter 1: 地元ネタ -->
+        <div class="notebook-page relative">
+            <div class="binder-hole" style="top: 40px;"></div>
+            <div class="binder-hole" style="top: 50%; margin-top: -7.5px;"></div>
+            <div class="binder-hole" style="bottom: 40px;"></div>
+
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2 text-pink-800 border-b-2 border-pink-200 pb-2">
+                <span
+                    class="bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-lg">1</span>
+                徳島ネタを英作で使う！
+            </h2>
+
+            <p>
+                英作文で「私の町」とか「思い出」について書くとき、<br>
+                <span class="marker-pink">無理して難しいことを書こうとしてない？</span><br>
+                徳島の中学生なら、この3つだけ書けるようにしておけ。<br>
+                これだけで、どんなテーマも乗り切れる！
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                <div class="flashcard">
+                    <p class="text-xs text-slate-500 font-bold">阿波踊り</p>
+                    <p class="en-font text-xl text-pink-600 mt-1">Awa Odori</p>
+                    <p class="text-sm mt-2 font-bold text-slate-700">traditional dance festival</p>
+                </div>
+                <div class="flashcard">
+                    <p class="text-xs text-slate-500 font-bold">渦潮</p>
+                    <p class="en-font text-xl text-blue-600 mt-1">Whirlpools</p>
+                    <p class="text-sm mt-2 font-bold text-slate-700">Naruto whirlhpools</p>
+                </div>
+                <div class="flashcard">
+                    <p class="text-xs text-slate-500 font-bold">すだち</p>
+                    <p class="en-font text-xl text-green-600 mt-1">Sudachi</p>
+                    <p class="text-sm mt-2 font-bold text-slate-700">citrus fruit</p>
+                </div>
+            </div>
+
+            <div class="teacher-bubble">
+                <p class="font-bold mb-1">💡 先生のアドバイス</p>
+                「夏休みの思い出」→ <span class="en-font">I enjoyed dancing Awa Odori.</span><br>
+                「故郷の自慢」→ <span class="en-font">We have delicious citrus fruit, Sudachi.</span><br>
+                全部この3つに繋げれば、スペルミスも減るし最強だぞ。
+            </div>
+        </div>
+
+        <!-- Chapter 2: 長文読解 -->
+        <div class="notebook-page relative">
+            <div class="binder-hole" style="top: 40px;"></div>
+            <div class="binder-hole" style="top: 50%; margin-top: -7.5px;"></div>
+            <div class="binder-hole" style="bottom: 40px;"></div>
+
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2 text-blue-800 border-b-2 border-blue-200 pb-2">
+                <span
+                    class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-lg">2</span>
+                長文は「翻訳」するな！
+            </h2>
+
+            <p>
+                「全部日本語に訳そう」として時間が足りなくなる。<br>
+                基礎学の長文は<span class="marker-blue">「間違い探しゲーム」</span>だと思え。<br>
+                本文を読む前に、必ず<span class="font-bold text-red-600">設問（問題文）</span>を先に読め！
+            </p>
+
+            <div class="bg-slate-50 p-6 rounded-lg font-mono text-sm mt-4 border border-slate-300 relative">
+                <div class="absolute -top-3 left-4 bg-slate-200 text-slate-600 px-2 py-0.5 rounded text-xs font-bold">
+                    探索テクニック</div>
+                <ul class="space-y-4">
+                    <li class="flex gap-2">
+                        <i class="fa-solid fa-magnifying-glass text-blue-500 mt-1"></i>
+                        <div>
+                            <span class="font-bold">数字・大文字を探せ</span><br>
+                            「1998」とか「Tom」とか、目立つ単語を本文から探す。<br>
+                            答えは必ずその前後にある！
+                        </div>
+                    </li>
+                    <li class="flex gap-2">
+                        <i class="fa-solid fa-magnifying-glass text-blue-500 mt-1"></i>
+                        <div>
+                            <span class="font-bold">But, However の後ろ</span><br>
+                            「しかし」の後ろにこそ、筆者の言いたい本当のことが書いてある。<br>
+                            ここだけ読めばだいたい解ける。
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center pb-12">
+            <div class="mt-8 transform rotate-2 font-handwriting text-pink-800 opacity-60 text-xl">
+                Just Do It! (やるしかない！)
+            </div>
+            <p class="text-xs text-pink-400 mt-4 font-bold">ECC藍住のK</p>
+            <p class="text-xs text-pink-300 mt-2">&copy; 2026 ECCベストワン藍住・北島中央</p>
+        </div>
+
+    </div>
+</body>
+
+</html>

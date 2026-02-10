@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基礎学力テスト対策ポータル（2年）</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Klee+One:wght@400;600&display=swap"
+        rel="stylesheet">
+    <!-- Mobile Redirect -->
+    <script>
+        // スマホ（幅768px以下）かつPCモード指定がない場合、モバイル版へ転送
+        if (window.innerWidth <= 768 && !window.location.search.includes('mode=pc')) {
+            window.location.href = 'index_mobile.html';
+        }
+    </script>
+
+    <style>
+        /* 全体の設定：やわらかい丸ゴシックと紙の質感 */
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background-color: #f7f3e8;
+            /* Stone-50系: 再生紙のような色 */
+            background-image:
+                linear-gradient(rgba(200, 200, 200, 0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 200, 200, 0.2) 1px, transparent 1px);
+            background-size: 20px 20px;
+            /* 方眼紙パターン */
+            color: #44403c;
+            /* Stone-700 */
+        }
+
+        /* 黒板スタイル */
+        .blackboard {
+            background-color: #14532d;
+            /* Green-900 */
+            background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+            border: 8px solid #78350f;
+            /* Wood frame */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+            color: #f0fdf4;
+            position: relative;
+        }
+
+        /* チョークの粉受け（下部の木枠） */
+        .blackboard::after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: -8px;
+            right: -8px;
+            height: 16px;
+            background-color: #92400e;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 手書き文字風クラス */
+        .handwritten {
+            font-family: 'Klee One', cursive;
+        }
+
+        /* チョーク文字エフェクト */
+        .chalk-text {
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.2), 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ノート風カード */
+        .notebook-card {
+            background-color: white;
+            border-radius: 4px 16px 16px 4px;
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            border-left: 6px solid #e5e7eb;
+            /* Binding */
+        }
+
+        .notebook-card:hover {
+            transform: translateY(-5px) rotate(-1deg);
+            box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+        }
+
+        /* ノートの罫線 */
+        .notebook-lines {
+            background-image: linear-gradient(#f1f5f9 1px, transparent 1px);
+            background-size: 100% 1.5rem;
+        }
+
+        /* マスキングテープ風 */
+        .tape {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            width: 80px;
+            height: 24px;
+            background-color: rgba(254, 243, 199, 0.8);
+            /* Amber-100 */
+            border-left: 2px dotted rgba(0, 0, 0, 0.1);
+            border-right: 2px dotted rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            opacity: 0.9;
+            z-index: 20;
+        }
+
+        /* 動きのあるアニメーション */
+        .sway:hover i {
+            animation: sway 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes sway {
+            from {
+                transform: rotate(-10deg);
+            }
+
+            to {
+                transform: rotate(10deg);
+            }
+        }
+
+        /* モーダル */
+        .modal {
+            transition: opacity 0.3s ease-out;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            transform: translateY(20px) scale(0.95);
+            transition: transform 0.3s ease-out;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header: 教室の黒板 -->
+    <header class="pt-8 pb-16 px-4">
+        <div class="max-w-5xl mx-auto blackboard p-8 md:p-12 text-center transform rotate-0 md:rotate-0">
+            <!-- 日直等の落書き -->
+            <div
+                class="absolute top-4 right-4 hidden md:block text-right opacity-80 handwritten text-sm transform rotate-3">
+                <p>日直： ECC藍住のK</p>
+                <p>目標： 全員350点以上！</p>
+            </div>
+
+            <div class="space-y-4">
+                <span
+                    class="inline-block border-2 border-white/40 px-4 py-1 rounded-full text-white/80 text-sm font-bold tracking-widest mb-2">
+                    令和2年 〜 令和6年
+                </span>
+                <h1 class="text-3xl md:text-5xl font-black chalk-text leading-tight mb-2">
+                    基礎学力テスト対策室
+                </h1>
+                <h2 class="text-xl md:text-2xl handwritten text-yellow-200 mt-2">
+                    〜 過去問には「答え」がある 〜
+                </h2>
+
+                <p class="text-white/80 mt-6 max-w-xl mx-auto text-sm md:text-base leading-relaxed handwritten">
+                    ここは2年生のための作戦会議室だ。<br>
+                    先輩たちのデータを分析した「攻略ノート」と「過去問」を置いておく。<br>
+                    自由に持って行っていいぞ。
+                </p>
+            </div>
+
+            <!-- チョークと黒板消し -->
+            <div class="absolute bottom-2 right-12 flex space-x-2 opacity-90">
+                <div class="w-12 h-3 bg-white rounded-full shadow-sm"></div>
+                <div class="w-12 h-3 bg-yellow-200 rounded-full shadow-sm"></div>
+                <div class="w-16 h-8 bg-orange-800 rounded shadow-md border-b-4 border-orange-900 ml-4"></div>
+                <!-- 消し -->
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 -mt-8 pb-20 relative z-10 max-w-6xl space-y-16">
+
+        <!-- 攻略ノートセクション -->
+        <section>
+            <div class="flex items-center gap-3 mb-6 pl-2">
+                <span class="text-3xl">📒</span>
+                <h2 class="text-2xl font-bold text-stone-700">先生の攻略ノート（分析）</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 数学 -->
+                <a href="report_math.html" class="notebook-card block group h-full relative bg-white">
+                    <div class="tape bg-indigo-100"></div>
+                    <div class="p-6 pt-8 notebook-lines h-full flex flex-col">
+                        <div class="flex items-center gap-3 mb-3 text-indigo-700">
+                            <i class="fa-solid fa-calculator text-2xl group-hover:rotate-12 transition"></i>
+                            <h3 class="text-lg font-bold">数学</h3>
+                        </div>
+                        <p class="text-sm text-stone-600 mb-4 handwritten font-bold flex-grow">
+                            大問1で48点?! 計算ミスをゼロにする泥臭いテクニック集。
+                        </p>
+                        <div class="text-right mt-auto">
+                            <span
+                                class="inline-block bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm group-hover:bg-indigo-500 transition">
+                                ノートを開く <i class="fa-solid fa-book-open ml-1"></i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 英語 -->
+                <a href="report_english.html" class="notebook-card block group h-full relative bg-white">
+                    <div class="tape bg-pink-100"></div>
+                    <div class="p-6 pt-8 notebook-lines h-full flex flex-col">
+                        <div class="flex items-center gap-3 mb-3 text-pink-600">
+                            <i class="fa-solid fa-comments text-2xl group-hover:rotate-12 transition"></i>
+                            <h3 class="text-lg font-bold">英語</h3>
+                        </div>
+                        <p class="text-sm text-stone-600 mb-4 handwritten font-bold flex-grow">
+                            阿波踊り、すだち...「地元ネタ」英作文はこれで完璧だ。
+                        </p>
+                        <div class="text-right mt-auto">
+                            <span
+                                class="inline-block bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm group-hover:bg-pink-400 transition">
+                                ノートを開く <i class="fa-solid fa-book-open ml-1"></i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 社会 -->
+                <a href="report_social.html" class="notebook-card block group h-full relative bg-white">
+                    <div class="tape bg-amber-100"></div>
+                    <div class="p-6 pt-8 notebook-lines h-full flex flex-col">
+                        <div class="flex items-center gap-3 mb-3 text-amber-700">
+                            <i class="fa-solid fa-earth-asia text-2xl group-hover:rotate-12 transition"></i>
+                            <h3 class="text-lg font-bold">社会</h3>
+                        </div>
+                        <p class="text-sm text-stone-600 mb-4 handwritten font-bold flex-grow">
+                            歴史はタテよりヨコ！地理はローテーションを読め！
+                        </p>
+                        <div class="text-right mt-auto">
+                            <span
+                                class="inline-block bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm group-hover:bg-amber-500 transition">
+                                ノートを開く <i class="fa-solid fa-book-open ml-1"></i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 理科 -->
+                <a href="report_science.html" class="notebook-card block group h-full relative bg-white">
+                    <div class="tape bg-emerald-100"></div>
+                    <div class="p-6 pt-8 notebook-lines h-full flex flex-col">
+                        <div class="flex items-center gap-3 mb-3 text-emerald-700">
+                            <i class="fa-solid fa-flask text-2xl group-hover:rotate-12 transition"></i>
+                            <h3 class="text-lg font-bold">理科</h3>
+                        </div>
+                        <p class="text-sm text-stone-600 mb-4 handwritten font-bold flex-grow">
+                            均等配点の4分野。計算問題は「単位」を見れば解ける。
+                        </p>
+                        <div class="text-right mt-auto">
+                            <span
+                                class="inline-block bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm group-hover:bg-emerald-500 transition">
+                                ノートを開く <i class="fa-solid fa-book-open ml-1"></i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 国語 -->
+                <a href="report_japanese.html" class="notebook-card block group h-full relative bg-white">
+                    <div class="tape bg-slate-200"></div>
+                    <div class="p-6 pt-8 notebook-lines h-full flex flex-col">
+                        <div class="flex items-center gap-3 mb-3 text-slate-700">
+                            <i class="fa-solid fa-pen-nib text-2xl group-hover:rotate-12 transition"></i>
+                            <h3 class="text-lg font-bold">国語</h3>
+                        </div>
+                        <p class="text-sm text-stone-600 mb-4 handwritten font-bold flex-grow">
+                            現代文は宝探しだ。本文の中から答えを見つけるゲーム。
+                        </p>
+                        <div class="text-right mt-auto">
+                            <span
+                                class="inline-block bg-slate-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm group-hover:bg-slate-500 transition">
+                                ノートを開く <i class="fa-solid fa-book-open ml-1"></i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+
+
+
+            </div>
+        </section>
+
+        <!-- データ分析ラボセクション (New) -->
+        <section>
+            <div class="flex items-center gap-3 mb-6 pl-2 mt-12">
+                <span class="text-3xl">📊</span>
+                <h2 class="text-2xl font-bold text-stone-700">徹底データ分析ラボ（グラフ・統計）</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 数学データ -->
+                <a href="grade2_math.html"
+                    class="notebook-card block group h-full relative bg-indigo-50/50 border border-indigo-100">
+                    <div class="p-6 h-full flex flex-col">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-indigo-900 border-b-2 border-indigo-200">数学Math</h3>
+                            <i class="fa-solid fa-chart-pie text-indigo-400 text-xl"></i>
+                        </div>
+                        <ul class="text-xs text-indigo-800 space-y-2 mb-4 font-mono">
+                            <li>・大問別スコア配分</li>
+                            <li>・「計算」vs「思考」比率</li>
+                            <li>・5カ年出題トレンド</li>
+                        </ul>
+                        <div class="mt-auto text-center">
+                            <span
+                                class="text-xs font-bold text-indigo-500 border border-indigo-300 px-3 py-1 rounded-full group-hover:bg-indigo-600 group-hover:text-white transition">分析データを見る</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 英語データ -->
+                <a href="grade2_english.html"
+                    class="notebook-card block group h-full relative bg-pink-50/50 border border-pink-100">
+                    <div class="p-6 h-full flex flex-col">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-pink-900 border-b-2 border-pink-200">英語English</h3>
+                            <i class="fa-solid fa-chart-bar text-pink-400 text-xl"></i>
+                        </div>
+                        <ul class="text-xs text-pink-800 space-y-2 mb-4 font-mono">
+                            <li>・文法事項の出題頻度</li>
+                            <li>・長文テーマの傾向</li>
+                            <li>・出題ライブラリ</li>
+                        </ul>
+                        <div class="mt-auto text-center">
+                            <span
+                                class="text-xs font-bold text-pink-500 border border-pink-300 px-3 py-1 rounded-full group-hover:bg-pink-500 group-hover:text-white transition">分析データを見る</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 社会データ -->
+                <a href="grade2_social.html"
+                    class="notebook-card block group h-full relative bg-amber-50/50 border border-amber-100">
+                    <div class="p-6 h-full flex flex-col">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-amber-900 border-b-2 border-amber-200">社会Social</h3>
+                            <i class="fa-solid fa-chart-column text-amber-400 text-xl"></i>
+                        </div>
+                        <ul class="text-xs text-amber-800 space-y-2 mb-4 font-mono">
+                            <li>・地理ローテーション</li>
+                            <li>・歴史の出題年代分布</li>
+                            <li>・記述問題キーワード</li>
+                        </ul>
+                        <div class="mt-auto text-center">
+                            <span
+                                class="text-xs font-bold text-amber-600 border border-amber-300 px-3 py-1 rounded-full group-hover:bg-amber-600 group-hover:text-white transition">分析データを見る</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 理科データ -->
+                <a href="grade2_science.html"
+                    class="notebook-card block group h-full relative bg-emerald-50/50 border border-emerald-100">
+                    <div class="p-6 h-full flex flex-col">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-emerald-900 border-b-2 border-emerald-200">理科Science</h3>
+                            <i class="fa-solid fa-flask text-emerald-400 text-xl"></i>
+                        </div>
+                        <ul class="text-xs text-emerald-800 space-y-2 mb-4 font-mono">
+                            <li>・4分野の配点バランス</li>
+                            <li>・計算問題の比率</li>
+                            <li>・重要用語チェック</li>
+                        </ul>
+                        <div class="mt-auto text-center">
+                            <span
+                                class="text-xs font-bold text-emerald-600 border border-emerald-300 px-3 py-1 rounded-full group-hover:bg-emerald-600 group-hover:text-white transition">分析データを見る</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- 国語データ -->
+                <a href="grade2_Japanese.html"
+                    class="notebook-card block group h-full relative bg-slate-50/50 border border-slate-200">
+                    <div class="p-6 h-full flex flex-col">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-slate-900 border-b-2 border-slate-300">国語Japanese</h3>
+                            <i class="fa-solid fa-chart-area text-slate-400 text-xl"></i>
+                        </div>
+                        <ul class="text-xs text-slate-700 space-y-2 mb-4 font-mono">
+                            <li>・文章ジャンル別配点</li>
+                            <li>・古文/漢文の出題傾向</li>
+                            <li>・作文の採点基準</li>
+                        </ul>
+                        <div class="mt-auto text-center">
+                            <span
+                                class="text-xs font-bold text-slate-500 border border-slate-300 px-3 py-1 rounded-full group-hover:bg-slate-600 group-hover:text-white transition">分析データを見る</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 過去問アーカイブ -->
+        <section>
+            <div class="flex items-center gap-3 mb-6 pl-2 mt-12">
+                <span class="text-3xl">🗂️</span>
+                <h2 class="text-2xl font-bold text-stone-700">過去問実例アーカイブ</h2>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-stone-200 p-6 md:p-8 relative">
+                <!-- リング穴 -->
+                <div class="absolute top-0 left-4 bottom-0 w-8 border-r-2 border-dashed border-stone-200"></div>
+
+                <div class="pl-8 md:pl-12">
+                    <div
+                        class="mb-6 handwritten text-stone-600 bg-yellow-50 p-4 rounded border border-yellow-100 inline-block transform -rotate-1 shadow-sm">
+                        <p class="font-bold text-emerald-600"><i class="fa-solid fa-check"></i> 印刷・ダウンロード自由！</p>
+                        <p class="font-bold text-indigo-600 mt-1"><i class="fa-solid fa-comment-dots"></i> 答え合わせは授業でやるぞ。
+                        </p>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b-2 border-stone-300 text-stone-500 text-sm">
+                                    <th class="py-3 px-2">実施年</th>
+                                    <th class="py-3 px-2">国語</th>
+                                    <th class="py-3 px-2">数学</th>
+                                    <th class="py-3 px-2">社会</th>
+                                    <th class="py-3 px-2">理科</th>
+                                    <th class="py-3 px-2">英語</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm font-medium">
+                                <!-- R6 -->
+                                <tr class="hover:bg-stone-50 transition border-b border-stone-100">
+                                    <td class="py-4 px-2 text-stone-800 font-bold">
+                                        令和6年 <span class="text-xs bg-red-500 text-white px-1 rounded ml-1">最新</span>
+                                    </td>
+                                    <td class="px-2"><a href="令和6年度2年国語.pdf" target="_blank"
+                                            class="text-stone-500 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和6年度2年数学.pdf" target="_blank"
+                                            class="text-stone-500 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和6年度2年社会.pdf" target="_blank"
+                                            class="text-stone-500 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和6年度2年理科.pdf" target="_blank"
+                                            class="text-stone-500 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和6年度2年英語.pdf" target="_blank"
+                                            class="text-stone-500 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                </tr>
+                                <!-- R5 -->
+                                <tr class="hover:bg-stone-50 transition border-b border-stone-100">
+                                    <td class="py-4 px-2 text-stone-600">令和5年</td>
+                                    <td class="px-2"><a href="令和5年度2年国語.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和5年度2年数学.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和5年度2年社会.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和5年度2年理科.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和5年度2年英語.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                </tr>
+                                <!-- R4 -->
+                                <tr class="hover:bg-stone-50 transition border-b border-stone-100">
+                                    <td class="py-4 px-2 text-stone-600">令和4年</td>
+                                    <td class="px-2"><a href="令和4年度2年国語.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和4年度2年数学.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和4年度2年社会.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和4年度2年理科.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和4年度2年英語.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                </tr>
+                                <!-- R3 -->
+                                <tr class="hover:bg-stone-50 transition border-b border-stone-100">
+                                    <td class="py-4 px-2 text-stone-600">令和3年</td>
+                                    <td class="px-2"><a href="令和3年度2年国語.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和3年度2年数学.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和3年度2年社会.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和3年度2年理科.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和3年度2年英語.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                </tr>
+                                <!-- R2 -->
+                                <tr class="hover:bg-stone-50 transition">
+                                    <td class="py-4 px-2 text-stone-600">令和2年</td>
+                                    <td class="px-2"><a href="令和2年度2年国語.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和2年度2年数学.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和2年度2年社会.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和2年度2年理科.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                    <td class="px-2"><a href="令和2年度2年英語.pdf" target="_blank"
+                                            class="text-stone-400 hover:text-stone-800 hover:underline"><i
+                                                class="fa-regular fa-file-pdf"></i> PDF</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="text-center mt-8 pb-4">
+        <a href="index_mobile.html" class="text-xs text-stone-400 hover:text-stone-600 underline"><i
+                class="fa-solid fa-mobile-screen"></i> スマホ版サイトを表示</a>
+    </div>
+
+    <footer class="bg-stone-800 text-stone-400 py-12 border-t-8 border-stone-900">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm font-medium">&copy; 2026 ECCベストワン藍住・北島中央</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

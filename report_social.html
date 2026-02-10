@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【社会】世界と日本の「つなぎ方」攻略ノート</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ベーススタイル：再生紙風 & 手書きフォント */
+        body {
+            font-family: 'Klee One', cursive;
+            background-color: #f7f3e8;
+            /* Amber-50 (Parchment) */
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d6cbb0' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            color: #451a03;
+            /* Amber-950 */
+            line-height: 1.8;
+            padding-bottom: 5rem;
+        }
+
+        /* 古地図・ノート風コンテナ */
+        .notebook-page {
+            background-color: #fffef2;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #e7e5e4;
+            border-radius: 2px;
+        }
+
+        /* 左側の茶色いリングバインダー穴 */
+        .notebook-page::after {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            background-image: radial-gradient(circle, #44403c 20%, transparent 25%);
+            background-size: 100% 40px;
+        }
+
+        /* 蛍光ペン（マーカー）風 */
+        .marker-orange {
+            background: linear-gradient(transparent 60%, rgba(251, 146, 60, 0.4) 60%);
+            padding: 0 2px;
+        }
+
+        .marker-blue {
+            background: linear-gradient(transparent 60%, rgba(147, 197, 253, 0.6) 60%);
+            padding: 0 2px;
+        }
+
+        /* 赤ペン書き込み */
+        .red-pen {
+            color: #b91c1c;
+            /* Red-700 */
+            font-weight: 700;
+            font-family: 'Klee One', cursive;
+        }
+
+        /* スタンプ風 */
+        .stamp-box {
+            border: 3px solid #b45309;
+            /* Amber-700 */
+            color: #b45309;
+            padding: 0.5rem 1rem;
+            transform: rotate(-2deg);
+            display: inline-block;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            border-radius: 4px;
+            mix-blend-mode: multiply;
+        }
+
+        /* 貼り付けた写真風 */
+        .photo-card {
+            background: white;
+            padding: 0.5rem;
+            padding-bottom: 2rem;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            transform: rotate(2deg);
+            text-align: center;
+            font-size: 0.8rem;
+            color: #78716c;
+        }
+
+        .photo-card::before {
+            content: '';
+            width: 80px;
+            height: 25px;
+            background-color: rgba(255, 255, 255, 0.4);
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 歴史年表風ライン */
+        .history-line {
+            border-left: 4px solid #d97706;
+            /* Amber-600 */
+            padding-left: 1.5rem;
+            margin-left: 1rem;
+            position: relative;
+        }
+
+        .history-point::before {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background-color: #fff;
+            border: 4px solid #d97706;
+            border-radius: 50%;
+            position: absolute;
+            left: -2.1rem;
+            top: 0.4rem;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- ナビゲーション -->
+    <div class="max-w-4xl mx-auto pt-8 px-4 mb-8">
+        <a href="index.html"
+            class="inline-flex items-center gap-2 text-stone-500 hover:text-amber-700 transition font-bold group">
+            <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+            ポータルに戻る
+        </a>
+    </div>
+
+    <!-- コンテンツエリア -->
+    <div class="max-w-4xl mx-auto space-y-16 px-4 md:px-0">
+
+        <!-- Title Page -->
+        <div class="notebook-page p-10 md:p-16 transform rotate-1 mb-12 pl-12 md:pl-20"> <!-- 左余白はリング穴用 -->
+            <div class="text-center relative">
+                <span class="stamp-box absolute top-0 right-0 transform rotate-12 opacity-80">
+                    暗記不要論
+                </span>
+
+                <p class="text-amber-700 font-bold mb-4 tracking-widest text-lg">地理×歴史＝最強の物語</p>
+                <h1 class="text-4xl md:text-6xl font-black mb-6 text-stone-800" style="font-family: 'Zen Maru Gothic'">
+                    基礎学<span class="text-amber-600">社会</span><br>
+                    <span class="marker-orange inline-block px-4">「流れ」で解く</span> 歴史地図
+                </h1>
+                <p class="text-xl md:text-2xl text-stone-600 mt-8 font-bold">
+                    〜 丸暗記をやめると、点数は勝手に上がる 〜
+                </p>
+
+                <div class="mt-12 flex justify-end items-end gap-4">
+                    <i class="fa-solid fa-feather-pointed text-4xl text-amber-300 transform -rotate-45"></i>
+                    <div class="text-right">
+                        <p class="text-lg font-bold text-stone-700">作成者：ECC藍住のK</p>
+                        <p class="text-sm text-stone-400">（歴史はドラマだ、地理はパズルだ！）</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chapter 1: 地理のローテーション -->
+        <div class="relative">
+            <div
+                class="absolute -top-5 -left-2 bg-amber-600 text-white px-6 py-2 shadow-md transform -rotate-1 z-10 font-bold font-sans clip-path-ribbon">
+                <i class="fa-solid fa-earth-americas mr-2"></i>地理：出題のサイクル
+            </div>
+
+            <div class="notebook-page p-8 md:p-12 pl-12 md:pl-20 pt-16">
+                <h2 class="text-2xl font-bold mb-6 text-stone-800 flex items-center gap-3">
+                    <span class="text-3xl text-amber-600 font-serif">I.</span>
+                    <span class="scribble-underline">「地域ローテーション」を見抜け</span>
+                </h2>
+
+                <div class="flex flex-col md:flex-row gap-8 items-start">
+                    <div class="flex-1 space-y-4 text-lg">
+                        <p>
+                            基礎学の地理は、だいたい<span class="red-pen">「3年周期」</span>で世界を回ってる。<br>
+                            アジアが出たら、次は欧米か？南半球か？
+                        </p>
+                        <p>
+                            頻出の警戒エリアはズバリ<span class="marker-orange font-bold text-xl">「南アメリカ & オセアニア」</span>だ。<br>
+                            （※アジア・欧州が出た翌年は、南半球が狙われやすい傾向がある）
+                        </p>
+                        <div class="bg-amber-50 p-4 border-l-4 border-amber-400 text-stone-700 text-base mt-4">
+                            <p class="font-bold mb-2"><i class="fa-solid fa-magnifying-glass mr-1"></i> チェックポイント</p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>ブラジルの「アマゾン開発」と環境問題</li>
+                                <li>オーストラリアの「露天掘り」と「白豪主義」の撤廃</li>
+                                <li><span class="red-pen">「時差」</span>の計算（東経135度との差）</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 写真風あしらい -->
+                    <div class="photo-card w-full md:w-48 transform rotate-3 flex-shrink-0">
+                        <div
+                            class="bg-sky-200 h-32 w-full mb-2 flex items-center justify-center overflow-hidden relative">
+                            <i class="fa-solid fa-australia-sign text-sky-600 text-4xl"></i>
+                            <!-- 簡易地図イメージ -->
+                            <div class="absolute bottom-0 right-0 w-16 h-16 bg-green-200 rounded-full opacity-50"></div>
+                        </div>
+                        <p class="font-handwriting">南半球は季節が逆！<br>7月は冬だぞ！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chapter 2: 歴史の横のつながり -->
+        <div class="relative mt-20">
+            <div
+                class="absolute -top-5 -left-2 bg-stone-600 text-white px-6 py-2 shadow-md transform rotate-1 z-10 font-bold font-sans">
+                <i class="fa-solid fa-scroll mr-2"></i>歴史：タテではなく「ヨコ」
+            </div>
+
+            <div class="notebook-page p-8 md:p-12 pl-12 md:pl-20 pt-16">
+                <!-- 歴史タイムライン -->
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold mb-4 text-stone-800">
+                        <span class="text-3xl text-stone-600 font-serif">II.</span>
+                        日本の出来事、その時世界は？
+                    </h2>
+                    <p class="text-lg leading-relaxed mb-6">
+                        年号なんて覚えるな。「因果関係」を覚えろ。<br>
+                        日本が鎖国してる間に、イギリスで何が起きてた？<br>
+                        <span class="marker-blue">「同時代のヨコのつながり」</span>が一番出る！
+                    </p>
+
+                    <div class="history-line space-y-8 mt-6">
+                        <div class="history-point relative">
+                            <h3 class="font-bold text-lg text-amber-800">16世紀：鉄砲伝来 & キリスト教</h3>
+                            <p class="text-stone-600 text-sm mt-1">
+                                信長が天下統一を目指す頃...<br>
+                                世界では<span class="red-pen">「大航海時代」</span>！<br>
+                                コロンブスやマゼランが海を渡ってきたから、日本にたどり着いたんだ。
+                            </p>
+                        </div>
+                        <div class="history-point relative">
+                            <h3 class="font-bold text-lg text-amber-800">19世紀：ペリー来航 (幕末)</h3>
+                            <p class="text-stone-600 text-sm mt-1">
+                                なぜアメリカは急に来た？<br>
+                                <span class="red-pen">「産業革命」</span>で工場ができて、製品を売りつける市場や、<br>
+                                捕鯨船の燃料（油）が欲しかったからだ。偶然じゃないぞ。
+                            </p>
+                        </div>
+                        <div class="history-point relative">
+                            <h3 class="font-bold text-lg text-amber-800">明治維新：富国強兵</h3>
+                            <p class="text-stone-600 text-sm mt-1">
+                                岩倉使節団が見たのは、プロイセン（ドイツ）憲法。<br>
+                                当時の世界最強国を真似たんだ。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chapter 3: 記述の鉄則 -->
+        <div class="notebook-page p-8 md:p-12 pl-12 md:pl-20 transform -rotate-1 relative bg-stone-100 border-none shadow-none mt-12"
+            style="background-image: none;">
+            <!-- クリップ -->
+            <div class="absolute -top-4 left-1/2 w-8 h-16 bg-stone-300 rounded-full border-4 border-stone-400 -z-10">
+            </div>
+
+            <h2 class="text-2xl text-stone-800 font-black mb-4 text-center">
+                <i class="fa-solid fa-pen-nib mr-2"></i>記述で使える「魔法のフレーズ」
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-stone-700">
+                <div class="bg-white p-4 shadow-sm transform -rotate-1">
+                    <p class="text-center font-bold text-amber-700 mb-2 border-b border-amber-200">地理（地形図・産業）</p>
+                    <p class="text-lg text-center font-bold">
+                        「〜するのに適しているから」<br>
+                        「〜の手間が省けるから」
+                    </p>
+                    <p class="text-xs text-center mt-2 text-stone-400">（扇状地の果樹園とか、工場団地の立地とか）</p>
+                </div>
+                <div class="bg-white p-4 shadow-sm transform rotate-1">
+                    <p class="text-center font-bold text-amber-700 mb-2 border-b border-amber-200">歴史（改革・政策）</p>
+                    <p class="text-lg text-center font-bold">
+                        「財政を立て直すため」<br>
+                        「幕府の権威を高めるため」
+                    </p>
+                    <p class="text-xs text-center mt-2 text-stone-400">（享保の改革も寛政の改革もだいたいこれ）</p>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center text-stone-600 font-bold">
+                <p>理由を聞かれたら、だいたい「金（経済）」か「権力（政治）」だ。</p>
+                <p>キレイごとは書くな。大人の事情を書け。</p>
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="text-center py-10">
+            <p class="text-stone-400 text-sm mt-4">&copy; 2026 ECCベストワン藍住・北島中央</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

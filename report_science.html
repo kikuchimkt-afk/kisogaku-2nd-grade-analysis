@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【理科】担当講師の「極秘」攻略ノート</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ベーススタイル：方眼紙 & 手書きフォント */
+        body {
+            font-family: 'Klee One', cursive;
+            background-color: #f8fafc;
+            /* 緑系の方眼紙 */
+            background-image:
+                linear-gradient(#dcfce7 1px, transparent 1px),
+                linear-gradient(90deg, #dcfce7 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: #2d3748;
+            line-height: 1.8;
+            padding-bottom: 5rem;
+        }
+
+        /* ノート用紙風コンテナ */
+        .notebook-page {
+            background-color: #fff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        /* 左側の緑ライン */
+        .notebook-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 2rem;
+            width: 2px;
+            background-color: #86efac;
+            /* Emerald-300 */
+            opacity: 0.5;
+            z-index: 10;
+        }
+
+        /* 蛍光ペン（マーカー）風 */
+        .marker-yellow {
+            background: linear-gradient(transparent 60%, rgba(253, 224, 71, 0.6) 60%);
+            padding: 0 2px;
+        }
+
+        .marker-pink {
+            background: linear-gradient(transparent 60%, rgba(252, 165, 165, 0.6) 60%);
+            padding: 0 2px;
+        }
+
+        .marker-green {
+            background: linear-gradient(transparent 60%, rgba(134, 239, 172, 0.6) 60%);
+            padding: 0 2px;
+        }
+
+        /* 赤ペン先生風の書き込み */
+        .red-pen {
+            color: #dc2626;
+            font-weight: 700;
+            font-family: 'Klee One', cursive;
+        }
+
+        .red-circle {
+            border: 3px solid #dc2626;
+            border-radius: 50% 60% 40% 70% / 50% 50% 60% 40%;
+            padding: 0.2rem 0.6rem;
+            display: inline-block;
+            transform: rotate(-2deg);
+        }
+
+        .scribble-underline {
+            text-decoration: none;
+            border-bottom: 2px solid #dc2626;
+            border-radius: 200px 15px 155px 15px / 15px 200px 15px 55px;
+            /* 手書き風の線 */
+        }
+
+        /* 付箋スタイル */
+        .sticky-note {
+            box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            font-family: 'Zen Maru Gothic', sans-serif;
+        }
+
+        .sticky-note:hover {
+            transform: scale(1.02) rotate(0deg) !important;
+            z-index: 20;
+        }
+
+        .tape-gray {
+            width: 80px;
+            height: 25px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-left: 1px dashed rgba(0, 0, 0, 0.1);
+            border-right: 1px dashed rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-1deg);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 黒板風コラム */
+        .blackboard {
+            background-color: #064e3b;
+            /* Emerald-900 */
+            color: #f1f5f9;
+            border: 8px solid #78350f;
+            /* Wood color */
+            border-radius: 4px;
+            position: relative;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .chalk-text {
+            font-family: 'Klee One', cursive;
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- ナビゲーション -->
+    <div class="max-w-4xl mx-auto pt-8 px-4 mb-8">
+        <a href="index.html"
+            class="inline-flex items-center gap-2 text-slate-500 hover:text-emerald-600 transition font-bold group">
+            <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+            ポータルに戻る
+        </a>
+    </div>
+
+    <!-- コンテンツエリア -->
+    <div class="max-w-4xl mx-auto space-y-16 px-4 md:px-0">
+
+        <!-- Title Page: 手書き表紙 -->
+        <div class="notebook-page p-10 md:p-16 transform rotate-1 mb-12">
+            <div class="border-4 border-double border-emerald-200 h-full w-full p-8 md:p-12 text-center relative">
+                <!-- スタンプ -->
+                <div class="absolute top-0 right-0 transform rotate-12 border-4 border-emerald-600 text-emerald-600 rounded-full w-24 h-24 flex items-center justify-center font-black text-lg opacity-80"
+                    style="border-radius: 45% 55% 40% 60%;">
+                    勝利<br>法則
+                </div>
+
+                <p class="text-emerald-600 font-bold mb-4 tracking-widest">理科嫌いでも勝てる</p>
+                <h1 class="text-4xl md:text-6xl font-black mb-6 text-slate-800" style="font-family: 'Zen Maru Gothic'">
+                    基礎学<span class="text-emerald-500">理科</span><br>
+                    <span class="marker-green inline-block px-4 transform -rotate-1">分野別・最速攻略</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-slate-600 mt-8 font-bold">
+                    〜 「4つの山」を登りきれば80点は余裕！ 〜
+                </p>
+                <div class="mt-12 text-right">
+                    <p class="text-lg font-bold text-slate-700">作成者：ECC藍住のK</p>
+                    <p class="text-sm text-slate-400">（物理も化学も、ビビるな！）</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chapter 1: 分野の掟 -->
+        <div class="relative">
+            <!-- 見出し付箋 -->
+            <div
+                class="absolute -top-6 -left-2 bg-emerald-500 text-white px-6 py-2 rounded shadow-md transform -rotate-2 z-10 font-bold font-sans">
+                STEP 1. 物理・化学・生物・地学
+            </div>
+
+            <div class="notebook-page p-8 md:p-12 pt-16">
+                <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                    <span class="text-3xl text-emerald-500">①</span>
+                    <span class="scribble-underline">「苦手」を作らない奴が勝つ</span>
+                </h2>
+
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="flex-1 space-y-4 text-lg">
+                        <p>
+                            理科の配点は美しいくらい均等だ。<br>
+                            <span class="marker-green font-bold">物理25点、化学25点、生物25点、地学25点。</span><br>
+                            だから「物理捨てた」とか言ってる時点で、最高点は75点に下がる。
+                        </p>
+                        <p>
+                            全分野満遍なくやるのが正攻法だから、<br>
+                            <span class="red-pen">「好きな分野から解く」</span>のが意外と重要だ。<br>
+                            リズムを作るなら生物・地学から攻めろ！
+                        </p>
+
+                        <div class="grid grid-cols-2 gap-4 mt-6">
+                            <div class="bg-blue-50 p-3 rounded border border-blue-100 text-sm">
+                                <p class="font-bold text-blue-800 mb-1">物理 (大問1/5)</p>
+                                <p>計算必須。「オームの法則」と「圧力」の公式は絶対。</p>
+                            </div>
+                            <div class="bg-red-50 p-3 rounded border border-red-100 text-sm">
+                                <p class="font-bold text-red-800 mb-1">化学 (大問2/6)</p>
+                                <p>「物質の分類」と「原子記号」。暗記だけで半分取れる。</p>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded border border-green-100 text-sm">
+                                <p class="font-bold text-green-800 mb-1">生物 (大問3/7)</p>
+                                <p>「植物の分類」と「人体の仕組み」。一番点を取りやすい。</p>
+                            </div>
+                            <div class="bg-yellow-50 p-3 rounded border border-yellow-100 text-sm">
+                                <p class="font-bold text-yellow-800 mb-1">地学 (大問4/8)</p>
+                                <p>「火山・地震」と「天気」。図を見て答える練習を！</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chapter 2: 計算と記述 -->
+        <div class="relative mt-20">
+            <div
+                class="absolute -top-6 -left-2 bg-amber-500 text-white px-6 py-2 rounded shadow-md transform rotate-1 z-10 font-bold font-sans">
+                STEP 2. 計算と記述の即効テク
+            </div>
+
+            <div class="notebook-page p-8 md:p-12 pt-16">
+                <!-- 計算エリア -->
+                <div class="mb-10">
+                    <h2 class="text-2xl font-bold mb-4">
+                        <span class="text-3xl text-amber-500">②</span>
+                        計算の鉄則：単位を見ろ！
+                    </h2>
+                    <p class="text-lg leading-relaxed mb-4">
+                        物理の計算問題でパニックになるな。<br>
+                        問題文の数値の<span class="red-circle">単位</span>を見れば、やるべき計算が見えてくる。
+                    </p>
+                    <div class="bg-slate-50 p-6 rounded-lg border-2 border-slate-200 relative">
+                        <div class="tape-gray"></div>
+                        <p class="font-bold text-center text-slate-500 mb-2 border-b pb-2">魔法の単位チェック</p>
+                        <ul class="space-y-3 font-mono text-sm md:text-base">
+                            <li class="flex items-center gap-3">
+                                <span class="bg-blue-100 text-blue-700 px-2 rounded font-bold">圧力 (Pa)</span>
+                                <span>= <span class="marker-yellow">N(ニュートン)</span> ÷ <span
+                                        class="marker-yellow">㎡(面積)</span></span>
+                                <span class="text-xs text-red-500 ml-auto font-bold">※cm²をm²に直すの忘れるな！</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="bg-blue-100 text-blue-700 px-2 rounded font-bold">密度 (g/cm³)</span>
+                                <span>= <span class="marker-yellow">g(質量)</span> ÷ <span
+                                        class="marker-yellow">cm³(体積)</span></span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="bg-blue-100 text-blue-700 px-2 rounded font-bold">電圧 (V)</span>
+                                <span>= <span class="marker-yellow">A(電流)</span> × <span
+                                        class="marker-yellow">Ω(抵抗)</span></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 記述エリア -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="sticky-note bg-blue-100 p-6 transform -rotate-1">
+                        <div class="text-center font-bold text-blue-800 border-b-2 border-blue-200 pb-2 mb-2">
+                            記述の合言葉①
+                        </div>
+                        <p class="text-center font-black text-xl text-blue-900 mt-4 mb-2">
+                            「表面積」
+                        </p>
+                        <p class="text-sm text-center text-blue-800">
+                            小腸の柔毛、根の根毛、肺胞...<br>
+                            全部<span class="red-pen">「表面積を大きくして、効率よく吸収（交換）するため」</span>だ！
+                        </p>
+                    </div>
+
+                    <div class="sticky-note bg-yellow-100 p-6 transform rotate-2">
+                        <div class="text-center font-bold text-yellow-800 border-b-2 border-yellow-200 pb-2 mb-2">
+                            記述の合言葉②
+                        </div>
+                        <p class="text-center font-black text-xl text-yellow-900 mt-4 mb-2">
+                            「対照実験」
+                        </p>
+                        <p class="text-sm text-center text-yellow-800">
+                            実験を2つ用意する理由を聞かれたら<br>
+                            <span class="red-pen">「〜以外の条件を同じにするため」</span>と書け！
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chapter 3: 鉄則 -->
+        <div class="blackboard p-8 md:p-12 transform rotate-1 mx-2 md:mx-0">
+            <h2 class="text-2xl text-white font-bold mb-6 border-b border-white/30 pb-4 chalk-text">
+                <i class="fa-solid fa-flask mr-2"></i>
+                先生からの「ラストメッセージ」
+            </h2>
+
+            <div class="space-y-6 text-lg chalk-text leading-loose">
+                <div>
+                    <span class="text-yellow-300 font-bold text-xl">その１：</span>
+                    記述問題は「キーワード採点」だ。<br>
+                    文章が下手でもいい。<span class="border-b-2 border-white">教科書の太字（キーワード）</span>が入っていればマルがもらえる。<br>
+                    知ってる単語を強引にねじ込め！
+                </div>
+
+                <div>
+                    <span class="text-yellow-300 font-bold text-xl">その２：</span>
+                    計算問題で詰まったら、<span class="text-pink-300">「単位」を見ろ</span>。<br>
+                    答えが「g/cm³」なら、重さを体積で割るしかないだろ？<br>
+                    単位が計算式のヒントになってることに気づけ！
+                </div>
+
+                <div class="mt-8 text-right">
+                    <p>最後は知識量がモノを言う。<br>暗記から逃げるな。</p>
+                    <p class="text-sm opacity-70 mt-2">ECC藍住のK</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CopyRight -->
+        <div class="text-center py-10">
+            <p class="text-slate-400 text-sm mt-4">&copy; 2026 ECCベストワン藍住・北島中央</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
